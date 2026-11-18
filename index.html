@@ -372,6 +372,11 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var rg=sx.createRadialGradient(128,128,40,128,128,128);rg.addColorStop(0,"rgba(0,0,0,.6)");rg.addColorStop(1,"rgba(0,0,0,0)");sx.fillStyle=rg;sx.fillRect(0,0,256,256);
     var sh=new THREE.Mesh(new THREE.PlaneGeometry(95,95),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false}));
     sh.rotation.x=-Math.PI/2;sh.position.y=0.02;scene.add(sh);
+    // makine sahnesinde bardak izgaraya otursun diye tabanin hemen altina koyu temas golgesi
+    var sh2=new THREE.Mesh(new THREE.PlaneGeometry(62,62),new THREE.MeshBasicMaterial({map:sh.material.map,transparent:true,depthWrite:false,opacity:1}));
+    sh2.rotation.x=-Math.PI/2;sh2.position.y=0.03;sh2.visible=false;scene.add(sh2);
+    var sh3=new THREE.Mesh(new THREE.PlaneGeometry(54,54),new THREE.MeshBasicMaterial({map:sh.material.map,transparent:true,depthWrite:false,opacity:1}));
+    sh3.rotation.x=-Math.PI/2;sh3.position.y=0.04;sh3.visible=false;scene.add(sh3);
 
     // arka plan: stüdyo veya kahve makinesi (fotoğraf); makinede bardak ızgaranın üstüne, ağızlığın altına oturur
     var MODE="studyo",IMGW=1086,IMGH=1018,BX=402,BY=749,PXMMI=4.65;
@@ -389,7 +394,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       }
       cam.updateProjectionMatrix();need=true;
     }
-    function setMode(m){MODE=m;STAGE.classList.toggle("scene-makine",m==="makine");scene.background=m==="makine"?null:new THREE.Color(0x1c1716);
+    function setMode(m){MODE=m;if(typeof sh2!=="undefined"){sh2.visible=sh3.visible=(m==="makine");}STAGE.classList.toggle("scene-makine",m==="makine");scene.background=m==="makine"?null:new THREE.Color(0x1c1716);
       renderer.toneMappingExposure=m==="makine"?1.1:0.85;el("bgbtn").textContent="Arka plan: "+(m==="makine"?"Kahve makinesi":"Stüdyo");fit();}
     el("bgbtn").addEventListener("click",function(ev){ev.stopPropagation();setMode(MODE==="makine"?"studyo":"makine");});
     // yatay kaydırarak döndür (dikey kaydırma sayfayı kaydırır)
