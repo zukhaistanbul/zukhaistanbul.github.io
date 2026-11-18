@@ -417,7 +417,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
         ["map","normalMap","metalnessMap","emissiveMap"].forEach(function(k){if(decMat[k])decMat[k].dispose();});
         var mrT=tx(d.mr,false);
         decMat.map=tx(mkMap(d.ov),true);decMat.normalMap=null;
-        if(foilMat.map)foilMat.map.dispose();foilMat.map=tx(d.foil,true);foilMat.normalMap=decMat.normalMap;foilMat.roughnessMap=mrT;foilMat.emissiveMap=foilMat.map;foilMat.needsUpdate=true;foilMesh.visible=true;
+        if(foilMat.map)foilMat.map.dispose();foilMat.map=tx(d.foil,true);foilMat.needsUpdate=true;
         decMat.needsUpdate=true;carve(d.depth);need=true;}};
     (function loop(){requestAnimationFrame(loop);
       if(Math.abs(target-rot)>1e-4){rot+=(target-rot)*0.18;need=true;}
