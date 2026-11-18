@@ -39,9 +39,6 @@ header p{margin:0;color:var(--muted);font-size:13px;letter-spacing:.14em}
 .stage.full{position:fixed!important;inset:0!important;z-index:1000!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-height:none!important;min-height:0!important;margin:0!important;border-radius:0!important;aspect-ratio:auto!important}
 .x3d{display:none;position:absolute;left:16px;top:16px;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.55);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;align-items:center;justify-content:center}
 .stage.full .x3d{display:flex}
-.bgbtn{position:absolute;right:14px;top:12px;z-index:3;font-family:var(--body);font-size:12px;letter-spacing:.06em;color:var(--ink);background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer}
-.stage.scene-makine{background:url(img/makine.jpg) center/contain no-repeat,linear-gradient(#f1ebe3,#d8cdbf)}
-@media (max-width:820px){.stage.full .bgbtn{top:76px}}
 @media (max-width:820px){.x3d{top:76px}}
 .panel{display:grid;gap:22px}
 h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2;margin:0;text-wrap:balance}
@@ -109,7 +106,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       <div class="chip" id="chipColor">Vizon</div>
       <div class="chip" style="left:14px;right:auto;text-transform:none;letter-spacing:.02em;color:var(--muted)">↔ Kaydır: döndür · Dokun: büyüt</div>
       <button class="x3d" id="x3d" type="button" aria-label="Kapat">&times;</button>
-      <button class="bgbtn" id="bgbtn" type="button">Arka plan: Stüdyo</button>
     </div>
 
     <div class="panel">
@@ -157,10 +153,10 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   var COLORS=[
     {id:"kahve",name:"Kahverengi",hex:"#4e2a1d",top:498,r:240},
     {id:"vizon",name:"Vizon",hex:"#77736b",top:498,r:240},
-    {id:"gul",name:"Gül kurusu",hex:"#b29f95",top:498,r:240},
+    {id:"gul",name:"Gül kurusu",hex:"#70565d",top:498,r:240},
     {id:"pembe",name:"Uçuk pembe",hex:"#cdc7d0",top:498,r:240},
     {id:"lila",name:"Lila",hex:"#b4a8b5",top:537,r:230},
-    {id:"sari",name:"Sarı",hex:"#dcc47c",top:537,r:230},
+    {id:"sari",name:"Sarı",hex:"#efc34d",top:537,r:230},
     {id:"mint",name:"Mint yeşili",hex:"#9ccfb3",top:537,r:230}
   ];
   // Sembol yolları 0..1 kutusunda
@@ -395,8 +391,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       cam.updateProjectionMatrix();need=true;
     }
     function setMode(m){MODE=m;if(typeof sh2!=="undefined"){sh2.visible=sh3.visible=(m==="makine");}STAGE.classList.toggle("scene-makine",m==="makine");scene.background=m==="makine"?null:new THREE.Color(0x1c1716);
-      renderer.toneMappingExposure=m==="makine"?1.1:0.85;el("bgbtn").textContent="Arka plan: "+(m==="makine"?"Kahve makinesi":"Stüdyo");fit();}
-    el("bgbtn").addEventListener("click",function(ev){ev.stopPropagation();setMode(MODE==="makine"?"studyo":"makine");});
+      renderer.toneMappingExposure=m==="makine"?1.1:0.85;fit();}
+
     // yatay kaydırarak döndür (dikey kaydırma sayfayı kaydırır)
     var rot=0,target=0,drag=null,need=true;
     CV.style.touchAction="pan-y";CV.style.cursor="grab";
