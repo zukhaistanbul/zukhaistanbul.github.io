@@ -40,7 +40,7 @@ header p{margin:0;color:var(--muted);font-size:13px;letter-spacing:.14em}
 .x3d{display:none;position:absolute;left:16px;top:16px;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.55);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;align-items:center;justify-content:center}
 .stage.full .x3d{display:flex}
 .bgbtn{position:absolute;right:14px;top:12px;z-index:3;font-family:var(--body);font-size:12px;letter-spacing:.06em;color:var(--ink);background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer}
-.stage.scene-makine{background:url(img/makine.png) center/contain no-repeat,linear-gradient(#f1ebe3,#d8cdbf)}
+.stage.scene-makine{background:url(img/makine.jpg) center/contain no-repeat,linear-gradient(#f1ebe3,#d8cdbf)}
 @media (max-width:820px){.stage.full .bgbtn{top:76px}}
 @media (max-width:820px){.x3d{top:76px}}
 .panel{display:grid;gap:22px}
@@ -374,12 +374,12 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     sh.rotation.x=-Math.PI/2;sh.position.y=0.02;scene.add(sh);
 
     // arka plan: stüdyo veya kahve makinesi (fotoğraf); makinede bardak ızgaranın üstüne, ağızlığın altına oturur
-    var MODE="studyo",IMGW=640,IMGH=695,BX=395,BY=445,PXMMI=2.98;
+    var MODE="studyo",IMGW=1086,IMGH=1018,BX=402,BY=749,PXMMI=4.65;
     function fit(){
       var w=STAGE.clientWidth||400,h=STAGE.clientHeight||500;renderer.setSize(w,h,false);cam.aspect=w/h;
       var t=Math.tan(THREE.MathUtils.degToRad(cam.fov/2));
       if(MODE==="makine"){
-        var s=Math.min(w/IMGW,h/IMGH),ox=(w-IMGW*s)/2,oy=(h-IMGH*s)/2,ppm=PXMMI*s,dm=h/(2*t*ppm),el=THREE.MathUtils.degToRad(18);
+        var s=Math.min(w/IMGW,h/IMGH),ox=(w-IMGW*s)/2,oy=(h-IMGH*s)/2,ppm=PXMMI*s,dm=h/(2*t*ppm),el=THREE.MathUtils.degToRad(19);
         cam.position.set(0,30+dm*Math.sin(el),dm*Math.cos(el));cam.lookAt(0,30,0);
         var cx=ox+BX*s,cy=oy+BY*s-30*ppm*Math.cos(el);
         cam.setViewOffset(w,h,-(cx-w/2),-(cy-h/2),w,h);
