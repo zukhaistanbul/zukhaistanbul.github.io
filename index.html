@@ -195,7 +195,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 
   // --- 3D önizleme: gerçek bardak ölçüleri, tüm renklerde aynı form ---
   var CV=el("cv"), STAGE=CV.parentNode, T=null, G3={};
-  var CUP_H=60.07, CAP=0.77, PXMM=16;
+  var CUP_H=60.07, CAP=0.77, PXMM=48, KP=PXMM/22;
   // dış ve iç profil [yarıçap mm, yükseklik mm] (kumpas ölçüleri: taban Ø47.38, geçiş Ø52.42, orta Ø55.54, kıvrım altı Ø59.17, ağız Ø61.38, boy 60.07)
   // Bardak profili: kumpas ölçüleri (taban Ø47.38, geçiş Ø52.42, orta Ø55.54, kıvrım altı Ø59.17, ağız Ø61.38, boy 60.07), yumuşak (oval) geçişlerle
   function crSeg(p,n){var out=[];for(var i=0;i<p.length-1;i++){var p0=p[Math.max(i-1,0)],p1=p[i],p2=p[i+1],p3=p[Math.min(i+2,p.length-1)];
@@ -229,7 +229,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var tw=txt?x.measureText(txt).width:0,sw=hasSym?capH*1.02:0,gap=txt&&hasSym?(isStar?0:FSpx*0.07):0;
     var x0=DW/2-(tw+gap+sw)/2, base=(BZ1-MONO_Z)*PXMM+capH/2;
     x.fillStyle="#fff";x.strokeStyle="#fff";x.textBaseline="alphabetic";x.lineJoin="round";
-    if(txt){x.fillText(txt,x0,base);x.lineWidth=1.8;x.strokeText(txt,x0,base);}
+    if(txt){x.fillText(txt,x0,base);x.lineWidth=1.8*KP;x.strokeText(txt,x0,base);}
     if(hasSym){
       x.save();
       if(isStar)x.translate(x0+tw+gap,base-capH/2-sw*0.53);else x.translate(x0+tw+gap,base-capH*1.02);
@@ -257,14 +257,14 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     function tnt(src,ox,oy,colr,bl){var c=cv2(),t=c.getContext("2d");t.drawImage(src,0,0);t.globalCompositeOperation="destination-out";t.drawImage(src,ox,oy);
       t.globalCompositeOperation="source-in";t.fillStyle=colr;t.fillRect(0,0,DW,DH);
       var c2=cv2(),u=c2.getContext("2d");u.filter="blur("+bl+"px)";u.drawImage(c,0,0);u.filter="none";u.globalCompositeOperation="destination-in";u.drawImage(src,0,0);return c2;}
-    var rg2=cv2(),rx=rg2.getContext("2d");rx.filter="blur(3px)";rx.drawImage(m,0,0);rx.filter="none";rx.globalCompositeOperation="destination-out";rx.drawImage(m,0,0);
+    var rg2=cv2(),rx=rg2.getContext("2d");rx.filter="blur("+(3*KP)+"px)";rx.drawImage(m,0,0);rx.filter="none";rx.globalCompositeOperation="destination-out";rx.drawImage(m,0,0);
     rx.globalCompositeOperation="source-in";rx.fillStyle="#000";rx.fillRect(0,0,DW,DH);
     cx.globalAlpha=0.45;cx.drawImage(rg2,0,0);
-    cx.globalAlpha=0.65;cx.drawImage(tnt(m,6,8,"#2a1c00",2.5),0,0);
-    cx.globalAlpha=0.45;cx.drawImage(tnt(m,-5,-7,"#fff6d8",2),0,0);
+    cx.globalAlpha=0.65;cx.drawImage(tnt(m,6*KP,8*KP,"#2a1c00",2.5*KP),0,0);
+    cx.globalAlpha=0.45;cx.drawImage(tnt(m,-5*KP,-7*KP,"#fff6d8",2*KP),0,0);
     cx.globalAlpha=1;
-    var bl=cv2(),bx=bl.getContext("2d");bx.filter="blur(1.5px)";bx.drawImage(m,0,0);
-    var nz=document.createElement("canvas");nz.width=DW>>1;nz.height=DH>>1;var nzx=nz.getContext("2d"),nd=nzx.createImageData(nz.width,nz.height);
+    var bl=cv2(),bx=bl.getContext("2d");bx.filter="blur("+(1.5*KP)+"px)";bx.drawImage(m,0,0);
+    var nz=document.createElement("canvas");nz.width=Math.round(DW/(2*KP));nz.height=Math.round(DH/(2*KP));var nzx=nz.getContext("2d"),nd=nzx.createImageData(nz.width,nz.height);
     for(var q=0;q<nd.data.length;q+=4){var r=Math.random()*255|0;nd.data[q]=nd.data[q+1]=nd.data[q+2]=r;nd.data[q+3]=255;}nzx.putImageData(nd,0,0);
     var nb=cv2(),nbx=nb.getContext("2d");nbx.imageSmoothingEnabled=true;nbx.drawImage(nz,0,0,DW,DH);
     var A=bx.getImageData(0,0,DW,DH).data,S=x.getImageData(0,0,DW,DH).data,N=nbx.getImageData(0,0,DW,DH).data;
@@ -273,15 +273,15 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var nmC=cv2(),nmx=nmC.getContext("2d"),nm=nmx.createImageData(DW,DH),mrC=cv2(),mrx=mrC.getContext("2d"),mr=mrx.createImageData(DW,DH);
     // varak dokusu: harfin bittiği kenarlar, ince serifler ve kıvrımlar daha parlak; iç kısımlar daha mat; dağılım rastgele (el işi gibi)
     function blurA(px){var c=cv2(),t=c.getContext("2d");t.filter="blur("+px+"px)";t.drawImage(m,0,0);return t.getImageData(0,0,DW,DH).data;}
-    var A3=blurA(3),A7=blurA(7);
-    var lz=document.createElement("canvas");lz.width=Math.max(2,Math.round(DW/7));lz.height=Math.max(2,Math.round(DH/7));var lzx=lz.getContext("2d"),ld=lzx.createImageData(lz.width,lz.height);
+    var A3=blurA(3*KP),A7=blurA(7*KP);
+    var lz=document.createElement("canvas");lz.width=Math.max(2,Math.round(DW/(7*KP)));lz.height=Math.max(2,Math.round(DH/(7*KP)));var lzx=lz.getContext("2d"),ld=lzx.createImageData(lz.width,lz.height);
     for(q=0;q<ld.data.length;q+=4){r=Math.random()*255|0;ld.data[q]=ld.data[q+1]=ld.data[q+2]=r;ld.data[q+3]=255;}lzx.putImageData(ld,0,0);
-    var lb=cv2(),lbx=lb.getContext("2d");lbx.imageSmoothingEnabled=true;lbx.filter="blur(3px)";lbx.drawImage(lz,0,0,DW,DH);var L=lbx.getImageData(0,0,DW,DH).data;
+    var lb=cv2(),lbx=lb.getContext("2d");lbx.imageSmoothingEnabled=true;lbx.filter="blur("+(3*KP)+"px)";lbx.drawImage(lz,0,0,DW,DH);var L=lbx.getImageData(0,0,DW,DH).data;
     function hx(h){return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];}
     var PL=hx(P.lo),PM=hx(P.mid),PHc=hx(P.hi);
     var foC=cv2(),foX=foC.getContext("2d"),foD=foX.createImageData(DW,DH);
     // çapraz ince buruşukluk (varak bastırılınca oluşan çizgiler)
-    var cz=document.createElement("canvas");cz.width=Math.round(DW/1.4);cz.height=Math.round(DH/0.45);var czx=cz.getContext("2d"),cd=czx.createImageData(cz.width,cz.height);
+    var cz=document.createElement("canvas");cz.width=Math.round(DW/(1.4*KP));cz.height=Math.round(DH/(0.45*KP));var czx=cz.getContext("2d"),cd=czx.createImageData(cz.width,cz.height);
     for(q=0;q<cd.data.length;q+=4){r=Math.random()*255|0;cd.data[q]=cd.data[q+1]=cd.data[q+2]=r;cd.data[q+3]=255;}czx.putImageData(cd,0,0);
     var cb=cv2(),cbx=cb.getContext("2d");cbx.imageSmoothingEnabled=true;cbx.translate(DW/2,DH/2);cbx.rotate(35*Math.PI/180);cbx.drawImage(cz,-DW,-DH,DW*2,DH*2);var CR=cbx.getImageData(0,0,DW,DH).data;
     var kk=1/(2*MMPX);
@@ -308,7 +308,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function init3d(THREE){
     var renderer;
     try{renderer=new THREE.WebGLRenderer({canvas:CV,antialias:true,alpha:true});}catch(e){STAGE.insertAdjacentHTML("beforeend",'<p style="position:absolute;inset:auto 0 45% 0;text-align:center;color:#b9aca2;font-size:13px">Bu cihazda 3D önizleme açılamadı.</p>');return;}
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2.5));
     renderer.toneMapping=THREE.LinearToneMapping;renderer.toneMappingExposure=0.85;
     renderer.outputColorSpace=THREE.SRGBColorSpace;
     var scene=new THREE.Scene();scene.background=new THREE.Color(0x1c1716);
@@ -344,7 +344,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     function paint(hex){curHex=hex;var base=new THREE.Color(hex);PIECES.forEach(function(pc){for(var v=0;v<pc.a.count;v++){tmpC.copy(base).lerp(GLAZE,pc.w[v%pc.n]);pc.a.setXYZ(v,tmpC.r,tmpC.g,tmpC.b);}pc.a.needsUpdate=true;});}
     // varak (cıkartma) yüzeyi: bardak profilinin 0.06 mm dışı
     // harf bandı: 0.1 mm ızgara, harflerin oldugu yerde yüzey gerçekten içe oyulur (kumlama derinliği)
-    var NU=Math.round(2*PH*RMID*4),NV=Math.round((BZ1-BZ0)*4),NVX=NU+1;
+    var NU=Math.round(2*PH*RMID*10),NV=Math.round((BZ1-BZ0)*10),NVX=NU+1;
     var bg=new THREE.BufferGeometry(),bpos=new Float32Array(NVX*(NV+1)*3),buv=new Float32Array(NVX*(NV+1)*2),bidx=new Uint32Array(NU*NV*6),bi=0;
     for(var iv=0;iv<=NV;iv++)for(var iu=0;iu<=NU;iu++){var k=iv*NVX+iu;buv[k*2]=iu/NU;buv[k*2+1]=iv/NV;
       if(iu<NU&&iv<NV){bidx[bi++]=k;bidx[bi++]=k+1;bidx[bi++]=k+NVX;bidx[bi++]=k+1;bidx[bi++]=k+NVX+1;bidx[bi++]=k+NVX;}}
@@ -439,7 +439,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     if(!T)return;
     T.setShape(SHAPE[c.id]||"ayakli");T.setColor(c.hex);
     var key=[state.text,state.sym,state.foil].join("|");
-    if(key!==DEC.key||!DEC.d){DEC.key=key;clearTimeout(DEC.t);DEC.t=setTimeout(function(){if(DEC.key!==key)return;DEC.d=decalCanvas();T.setDecal(DEC.d);},DEC.d?60:0);}
+    if(key!==DEC.key||!DEC.d){DEC.key=key;clearTimeout(DEC.t);DEC.t=setTimeout(function(){if(DEC.key!==key)return;DEC.d=decalCanvas();T.setDecal(DEC.d);},DEC.d?320:0);}
     else T.setMap(DEC.d.ov);
   }
   var DEC={key:null,d:null,t:0};
