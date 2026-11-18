@@ -108,9 +108,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     <div class="stage">
       <canvas id="cv" width="800" height="1000" role="img" aria-label="Seçtiğiniz renk ve harflerle bardak önizlemesi"></canvas>
       <div class="chip" id="chipColor">Vizon</div>
-      <div class="chip" style="left:14px;right:auto;text-transform:none;letter-spacing:.02em;color:#f3ede4">↔ Kaydır: döndür · Dokun: büyüt</div>
       <button class="x3d" id="x3d" type="button" aria-label="Kapat">&times;</button>
-      <div class="rot"><button type="button" id="rotL" aria-label="Sola döndür">&#8634;</button><button type="button" id="rotF" aria-label="Önden göster" style="font-size:13px;letter-spacing:.04em;width:auto;padding:0 14px;border-radius:22px">ÖN</button><button type="button" id="rotR" aria-label="Sağa döndür">&#8635;</button></div>
     </div>
 
     <div class="panel">
@@ -158,9 +156,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   var COLORS=[
     {id:"kahve",name:"Kahverengi",hex:"#4e2a1d",top:498,r:240},
     {id:"vizon",name:"Vizon",hex:"#77736b",top:498,r:240},
-    {id:"gul",name:"Gül kurusu",hex:"#b29f95",top:498,r:240},
+    {id:"gul",name:"Gül kurusu",hex:"#b68a78",top:498,r:240},
     {id:"pembe",name:"Uçuk pembe",hex:"#d4c5cc",top:498,r:240},
-    {id:"lila",name:"Lila",hex:"#70565d",top:537,r:230},
+    {id:"lila",name:"Lila",hex:"#93798a",top:537,r:230},
     {id:"sari",name:"Sarı",hex:"#efc34d",top:537,r:230},
     {id:"mint",name:"Mint yeşili",hex:"#9ccfb3",top:537,r:230}
   ];
@@ -412,7 +410,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     CV.addEventListener("pointerup",up);CV.addEventListener("pointercancel",up);
     CV.addEventListener("dblclick",function(){target=0;need=true;});
     function spin(d){return function(ev){ev.stopPropagation();target=d===0?0:target+d;need=true;};}
-    el("rotL").addEventListener("click",spin(-Math.PI/4));el("rotR").addEventListener("click",spin(Math.PI/4));el("rotF").addEventListener("click",spin(0));
+    
     if(window.ResizeObserver)new ResizeObserver(fit).observe(STAGE);else window.addEventListener("resize",fit);
     fit();
     T={THREE:THREE,cupMat:cupMat,decMat:decMat,
