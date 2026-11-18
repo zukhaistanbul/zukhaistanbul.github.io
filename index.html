@@ -356,7 +356,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     buildCup();
     var tex=new THREE.CanvasTexture(document.createElement("canvas"));
     // bant: harflerin dışı bardakla aynı renk/malzeme, harfler metal + çukur (normal harita)
-    var decMat=new THREE.MeshPhysicalMaterial({map:tex,metalness:1,roughness:1,clearcoat:0.5,clearcoatRoughness:0.3,emissive:0xffffff,emissiveIntensity:0.18,normalScale:new THREE.Vector2(1,1),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2});
+    var decMat=new THREE.MeshPhysicalMaterial({map:tex,metalness:0,roughness:cupMat.roughness,clearcoat:cupMat.clearcoat,clearcoatRoughness:cupMat.clearcoatRoughness,normalScale:new THREE.Vector2(1,1),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2});
     var dec=new THREE.Mesh(bg,decMat);cupG.add(dec);
     // varak katmanı: sadece harfler, gerçek metal + parlak stüdyo yansıması (pırıl pırıl)
     env.background=new THREE.Color(0x9a9088);box(14,10,0xffffff,0,1,9);box(12,4,0xfff4dc,0,10,2);box(3,12,0xffffff,-9,2,3);box(3,12,0xffffff,9,2,3);
@@ -410,13 +410,13 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     fit();
     T={THREE:THREE,cupMat:cupMat,decMat:decMat,
       setColor:function(hex){paint(hex);need=true;},
-      setShape:function(kind){if(kind===curKind)return;curKind=kind;buildProfile(kind);var gl=kind==="konik";BODY_ROUGH=gl?0.2:0.42;cupMat.roughness=BODY_ROUGH;cupMat.clearcoat=gl?1:0.5;cupMat.clearcoatRoughness=gl?0.06:0.3;decMat.clearcoat=cupMat.clearcoat;decMat.clearcoatRoughness=cupMat.clearcoatRoughness;buildCup();need=true;},
+      setShape:function(kind){if(kind===curKind)return;curKind=kind;buildProfile(kind);var gl=kind==="konik";BODY_ROUGH=gl?0.2:0.42;cupMat.roughness=BODY_ROUGH;cupMat.clearcoat=gl?1:0.5;cupMat.clearcoatRoughness=gl?0.06:0.3;decMat.roughness=cupMat.roughness;decMat.clearcoat=cupMat.clearcoat;decMat.clearcoatRoughness=cupMat.clearcoatRoughness;decMat.needsUpdate=true;buildCup();need=true;},
       setMap:function(ov){if(decMat.map)decMat.map.dispose();var t=new THREE.CanvasTexture(mkMap(ov));t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();decMat.map=t;decMat.needsUpdate=true;need=true;},
       setDecal:function(d){var an=renderer.capabilities.getMaxAnisotropy();
         function tx(c,srgb){var t=new THREE.CanvasTexture(c);if(srgb)t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=an;return t;}
         ["map","normalMap","metalnessMap","emissiveMap"].forEach(function(k){if(decMat[k])decMat[k].dispose();});
         var mrT=tx(d.mr,false);
-        decMat.map=tx(mkMap(d.ov),true);decMat.normalMap=tx(d.normal,false);decMat.metalnessMap=mrT;decMat.roughnessMap=mrT;decMat.emissiveMap=tx(d.emis,true);
+        decMat.map=tx(mkMap(d.ov),true);decMat.normalMap=null;
         if(foilMat.map)foilMat.map.dispose();foilMat.map=tx(d.foil,true);foilMat.normalMap=decMat.normalMap;foilMat.roughnessMap=mrT;foilMat.emissiveMap=foilMat.map;foilMat.needsUpdate=true;foilMesh.visible=true;
         decMat.needsUpdate=true;carve(d.depth);need=true;}};
     (function loop(){requestAnimationFrame(loop);
