@@ -75,7 +75,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   .order .copied{position:absolute;left:0;right:0;top:100%;margin-top:8px}
 }
 .disclaimer-wide{font-size:12px;color:var(--muted);margin:14px 0 0;max-width:62ch}
-@media (max-width:820px){.disclaimer-wide{margin:0 0 70px}.order{padding-bottom:0!important}}
+@media (max-width:820px){.disclaimer-wide{margin:0 0 16px}.order{padding-bottom:0!important}}
 .order{display:grid;gap:10px}
 .order .btns{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .order .btns .btn{text-align:center;padding:12px 6px;font-size:14px}
@@ -90,43 +90,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .savebtn svg{width:14px;height:14px}
 .savebtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .stage.full .savebtn{display:none}
-.addrow{display:flex;gap:10px;align-items:stretch}
-.qty{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.qty button{width:42px;border:0;background:transparent;color:var(--ink);font-size:20px;cursor:pointer}
-.qty input{width:48px;border:0;border-left:1px solid var(--line);border-right:1px solid var(--line);text-align:center;font:500 16px var(--body);color:var(--ink);-moz-appearance:textfield;background:#fff}
-.qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.addrow .btn{flex:1}
-.btn:disabled{opacity:.5;cursor:default}
-.copied a{color:var(--gold)}
-.cartfab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:50;display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:0;border-radius:28px;padding:13px 20px;font:500 15px var(--body);box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}
-@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-.cartfab.pop{animation:pop .45s ease}
-.cartfab b{background:var(--gold);border-radius:12px;min-width:24px;padding:1px 7px;font-weight:500}
-.cartfab[hidden],.cart[hidden]{display:none}
-.cart{position:fixed;inset:0;z-index:2000;background:rgba(20,16,15,.55);display:flex;justify-content:flex-end}
-.cartbox{background:#fff;width:min(460px,100%);height:100%;display:flex;flex-direction:column}
-.carthead{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
-.carthead h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
-.carthead button{border:0;background:none;font-size:28px;line-height:1;cursor:pointer;color:var(--ink);width:40px;height:40px}
-#cartList{flex:1;overflow:auto;padding:6px 20px}
-.ci{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
-.ci img{width:84px;height:105px;object-fit:cover;border-radius:4px;background:#1c1716;flex:none}
-.cd{display:grid;gap:4px;align-content:start;font-size:14px;min-width:0;flex:1}
-.cd b{font-family:var(--display);font-weight:400;font-size:17px}
-.cd span{color:var(--muted);display:block}
-.cd span i{width:11px;height:11px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:6px;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
-.cq{display:flex;align-items:center;gap:8px;margin-top:4px}
-.cq button{width:30px;height:30px;border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;font-size:16px;color:var(--ink)}
-.cq em{font-style:normal;min-width:56px;text-align:center}
-.cq .rm{width:auto;padding:0 10px;font-size:12px;color:var(--muted);margin-left:auto}
-.cartfoot{padding:16px 20px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:10px}
-.cartfoot p{margin:0}
-#cartTotal{font-family:var(--display);font-size:16px}
-.cartfoot .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cartfoot .btns .btn{text-align:center;padding:13px 8px;font-size:14px}
-.cartfoot .btns{grid-template-columns:1fr}
-.cartfoot .btns .btn:first-child{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);border:0}
-.cartfoot .btns .btn:last-child{grid-column:auto}
 @media (max-width:820px){.left{display:contents}.order{order:3;padding-bottom:64px;border-top:1px solid var(--line);padding-top:18px}.order .btns{grid-template-columns:1fr 1fr}.order .btns .btn:last-child{grid-column:auto}}
 @media (max-width:820px){
   .wrap{padding:12px 14px calc(28px + env(safe-area-inset-bottom));gap:14px}
@@ -171,10 +134,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       <button class="x3d" id="x3d" type="button" aria-label="Kapat">&times;</button>
     </div>
       <div class="order">
-        <div class="addrow">
-          <div class="qty" role="group" aria-label="Adet"><button type="button" id="qMinus" aria-label="Azalt">−</button><input id="qty" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="Adet"><button type="button" id="qPlus" aria-label="Artır">+</button></div>
-          <button class="btn" id="addCart" type="button">Sepete ekle</button>
-        </div>
         <div class="btns">
           <a class="btn ghost" id="igBtn" href="https://ig.me/m/zukhaistanbul" target="_blank" rel="noopener">Instagram'dan yaz</a>
           <a class="btn ghost" id="shopBtn" href="https://www.shopier.com/zukhaistanbul" target="_blank" rel="noopener">Mağazaya git</a>
@@ -220,21 +179,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   <p class="disclaimer-wide">Önizleme temsilidir. Her bardak elde işlendiği için ürününüz bu görsele benzer, ancak birebir aynı olmayabilir.</p>
 </div>
 
-<button class="cartfab" id="cartFab" type="button" hidden>Sepet <b id="cartCount">0</b></button>
-<div class="cart" id="cart" hidden role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-  <div class="cartbox">
-    <div class="carthead"><h2 id="cartTitle">Sepetim</h2><button type="button" id="cartClose" aria-label="Kapat">&times;</button></div>
-    <div id="cartList"></div>
-    <div class="cartfoot">
-      <p id="cartTotal"></p>
-      <div class="btns">
-        <button class="btn" id="shareIg" type="button">Instagram'dan gönder</button>
-        <button class="btn ghost" id="clearCart" type="button">Sepeti boşalt</button>
-      </div>
-      <p class="copied" id="cartMsg" aria-live="polite"></p>
-    </div>
-  </div>
-</div>
 <script>
 (function(){
   var COLORS=[
@@ -285,7 +229,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 
   // --- 3D önizleme: gerçek bardak ölçüleri, tüm renklerde aynı form ---
   var CV=el("cv"), STAGE=CV.parentNode, T=null, G3={};
-  var CUP_H=60.07, CAP=0.77, PXMM=48, KP=PXMM/22;
+  var CUP_H=60.07, CAP=0.77, PXMM=30, KP=PXMM/22;
   // dış ve iç profil [yarıçap mm, yükseklik mm] (kumpas ölçüleri: taban Ø47.38, geçiş Ø52.42, orta Ø55.54, kıvrım altı Ø59.17, ağız Ø61.38, boy 60.07)
   // Bardak profili: kumpas ölçüleri (taban Ø47.38, geçiş Ø52.42, orta Ø55.54, kıvrım altı Ø59.17, ağız Ø61.38, boy 60.07), yumuşak (oval) geçişlerle
   function crSeg(p,n){var out=[];for(var i=0;i<p.length-1;i++){var p0=p[Math.max(i-1,0)],p1=p[i],p2=p[i+1],p3=p[Math.min(i+2,p.length-1)];
@@ -406,7 +350,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function init3d(THREE){
     var renderer;
     try{renderer=new THREE.WebGLRenderer({canvas:CV,antialias:true,alpha:true});}catch(e){STAGE.insertAdjacentHTML("beforeend",'<p style="position:absolute;inset:auto 0 45% 0;text-align:center;color:#b9aca2;font-size:13px">Bu cihazda 3D önizleme açılamadı.</p>');return;}
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
     renderer.toneMapping=THREE.LinearToneMapping;renderer.toneMappingExposure=0.85;
     renderer.outputColorSpace=THREE.SRGBColorSpace;
     var scene=new THREE.Scene();scene.background=new THREE.Color(0x1c1716);
@@ -442,7 +386,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     function paint(hex){curHex=hex;var base=new THREE.Color(hex);PIECES.forEach(function(pc){for(var v=0;v<pc.a.count;v++){tmpC.copy(base).lerp(GLAZE,pc.w[v%pc.n]);pc.a.setXYZ(v,tmpC.r,tmpC.g,tmpC.b);}pc.a.needsUpdate=true;});}
     // varak (cıkartma) yüzeyi: bardak profilinin 0.06 mm dışı
     // harf bandı: 0.1 mm ızgara, harflerin oldugu yerde yüzey gerçekten içe oyulur (kumlama derinliği)
-    var NU=Math.round(2*PH*RMID*10),NV=Math.round((BZ1-BZ0)*10),NVX=NU+1;
+    var NU=Math.round(2*PH*RMID*7),NV=Math.round((BZ1-BZ0)*7),NVX=NU+1;
     var bg=new THREE.BufferGeometry(),bpos=new Float32Array(NVX*(NV+1)*3),buv=new Float32Array(NVX*(NV+1)*2),bidx=new Uint32Array(NU*NV*6),bi=0;
     for(var iv=0;iv<=NV;iv++)for(var iu=0;iu<=NU;iu++){var k=iv*NVX+iu;buv[k*2]=iu/NU;buv[k*2+1]=iv/NV;
       if(iu<NU&&iv<NV){bidx[bi++]=k;bidx[bi++]=k+1;bidx[bi++]=k+NVX;bidx[bi++]=k+1;bidx[bi++]=k+NVX+1;bidx[bi++]=k+NVX;}}
@@ -720,7 +664,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   }
 
   buildControls();render();
-  // ================== GÖRSEL KAYDET + SEPET + PDF ==================
+  // ================== GÖRSEL KAYDET ==================
   var IS_TOUCH=window.matchMedia&&window.matchMedia("(pointer:coarse)").matches;
   function trUp(s){try{return s.toLocaleUpperCase("tr-TR");}catch(e){return s.toUpperCase();}}
   function curKey(){return [state.text,state.sym,state.foil,state.seri].join("|");}
@@ -740,7 +684,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function dataURLtoBlob(u){var p=u.split(","),m=p[0].match(/:(.*?);/)[1],b=atob(p[1]),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m});}
   function download(blob,name){var a=document.createElement("a"),u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},1500);}
   function slug(){return (state.text||"bardak").replace(/[^A-Za-zÇĞİÖŞÜçğıöşü0-9]/g,"").toLowerCase()||"bardak";}
-  function whenFresh(cb){var n=0;(function chk(){if(!T||DEC.applied===curKey()||n++>40){requestAnimationFrame(function(){requestAnimationFrame(cb);});}else setTimeout(chk,60);})();}
   el("saveImg").addEventListener("click",function(){
     var name="zukha-"+color().id+"-"+slug()+".png",url=shot(false).toDataURL("image/png"),blob=dataURLtoBlob(url);
     if(IS_TOUCH&&navigator.canShare){var f=new File([blob],name,{type:"image/png"});
@@ -748,124 +691,6 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     download(blob,name);
   });
 
-  var CART=[];try{CART=JSON.parse(localStorage.getItem("zukha-sepet")||"[]")||[];}catch(e){CART=[];}
-  function saveCart(){try{localStorage.setItem("zukha-sepet",JSON.stringify(CART));}catch(e){}PDF.files=null;renderCart();}
-  function cartCount(){return CART.reduce(function(s,i){return s+i.qty;},0);}
-  function itemSym(i){return i.seri==="monogram"?"—":(i.sym==="kalp"?"Kalp":i.sym==="yildiz"?"Yıldız":i.sym==="yonca"?"Yonca":"Yok");}
-  function itemFoil(i){return i.foil==="gumus"?"Gümüş varak":"Altın varak";}
-  function colorOf(id){for(var i=0;i<COLORS.length;i++)if(COLORS[i].id===id)return COLORS[i];return COLORS[1];}
-  var qIn=el("qty");
-  function clampQ(v){v=parseInt(v,10);return isNaN(v)?1:Math.max(1,Math.min(99,v));}
-  el("qMinus").addEventListener("click",function(){qIn.value=clampQ(qIn.value)-1||1;});
-  el("qPlus").addEventListener("click",function(){qIn.value=clampQ(+qIn.value+1);});
-  qIn.addEventListener("change",function(){qIn.value=clampQ(qIn.value);});
-  el("addCart").addEventListener("click",function(){
-    var q=clampQ(qIn.value);qIn.value=q;var btn=this;btn.disabled=true;
-    whenFresh(function(){
-      var s=shot(true,true),t=document.createElement("canvas"),sc=Math.min(1,520/s.width);
-      t.width=Math.round(s.width*sc);t.height=Math.round(s.height*sc);t.getContext("2d").drawImage(s,0,0,t.width,t.height);
-      var key=[state.color,state.seri,state.text,state.seri==="monogram"?"":state.sym,state.foil].join("|"),it=null;
-      CART.forEach(function(i){if(i.key===key)it=i;});
-      if(it)it.qty=Math.min(999,it.qty+q);
-      else CART.push({key:key,color:state.color,seri:state.seri,text:state.text.trim(),sym:state.sym,foil:state.foil,qty:q,img:t.toDataURL("image/jpeg",0.86)});
-      saveCart();qIn.value=1;btn.textContent="Eklendi ✓";setTimeout(function(){btn.textContent="Sepete ekle";btn.disabled=false;},1100);
-      var fab=el("cartFab");fab.classList.remove("pop");void fab.offsetWidth;fab.classList.add("pop");
-      el("copied").innerHTML=q+" bardak sepete eklendi. <a href=\"#\" id=\"seeCart\">Sepeti gör</a>";
-      el("seeCart").addEventListener("click",function(e){e.preventDefault();openCart();});
-    });
-  });
-
-  var CARTEL=el("cart");
-  function openCart(){CARTEL.hidden=false;document.body.style.overflow="hidden";renderCart();prepPdf();el("cartClose").focus();}
-  function closeCart(){CARTEL.hidden=true;document.body.style.overflow="";el("cartFab").focus();}
-  el("cartFab").addEventListener("click",openCart);el("cartClose").addEventListener("click",closeCart);
-  CARTEL.addEventListener("click",function(e){if(e.target===CARTEL)closeCart();});
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!CARTEL.hidden)closeCart();});
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
-  function renderCart(){
-    var n=cartCount();el("cartFab").hidden=n===0;el("cartCount").textContent=n;
-    var L=el("cartList");
-    if(!CART.length){L.innerHTML='<p class="note" style="padding:24px 0;text-align:center">Sepetin boş.</p>';}
-    else L.innerHTML=CART.map(function(i,ix){var c=colorOf(i.color);
-      return '<div class="ci"><img src="'+i.img+'" alt=""><div class="cd"><b>'+esc(i.seri==="monogram"?"Monogram · "+i.text:i.text||"(yazısız)")+'</b>'+
-      '<span><i style="background:'+c.hex+'"></i>'+c.name+' · '+itemFoil(i)+(i.seri==="monogram"?'':' · Sembol: '+itemSym(i))+'</span>'+
-      '<div class="cq"><button type="button" data-a="-" data-i="'+ix+'" aria-label="Azalt">−</button><em>'+i.qty+' adet</em><button type="button" data-a="+" data-i="'+ix+'" aria-label="Artır">+</button>'+
-      '<button type="button" class="rm" data-a="x" data-i="'+ix+'">Kaldır</button></div></div></div>';}).join("");
-    el("cartTotal").textContent=n?"Toplam: "+n+" bardak":"";
-    ["shareIg","clearCart"].forEach(function(id){el(id).disabled=!CART.length;});
-    el("clearCart").textContent="Sepeti boşalt";el("clearCart").dataset.sure="";
-  }
-  el("cartList").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var i=+b.dataset.i,a=b.dataset.a;
-    if(a==="+")CART[i].qty=Math.min(999,CART[i].qty+1);else if(a==="-"){if(CART[i].qty>1)CART[i].qty--;else CART.splice(i,1);}else if(a==="x")CART.splice(i,1);
-    saveCart();prepPdf();});
-  el("clearCart").addEventListener("click",function(){var b=this;if(!b.dataset.sure){b.dataset.sure="1";b.textContent="Emin misin? Tekrar bas";return;}CART=[];saveCart();el("cartMsg").textContent="";});
-
-  // ---- PDF: üstte Excel tablosu gibi sipariş tablosu, altında bardak görselleri ----
-  var PDF={files:null};
-  function loadImg(src){return new Promise(function(r){var i=new Image();i.onload=function(){r(i);};i.onerror=function(){r(null);};i.src=src;});}
-  function buildPages(){
-    var PW=1240,PH=1754,M=80,pages=[],c,x,y,FT="Jost, Arial, sans-serif",FD="'Libre Baskerville', Georgia, serif";
-    var d=new Date(),ds=("0"+d.getDate()).slice(-2)+"."+("0"+(d.getMonth()+1)).slice(-2)+"."+d.getFullYear();
-    function page(){c=document.createElement("canvas");c.width=PW;c.height=PH;x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,PW,PH);pages.push(c);
-      var lg=document.querySelector(".logo");if(lg&&lg.complete){var lh=78,lw=lh*lg.naturalWidth/lg.naturalHeight;x.drawImage(lg,M,48,lw,lh);}
-      x.fillStyle="#2a2220";x.font="400 26px "+FD;x.textAlign="right";x.textBaseline="alphabetic";x.fillText("Sipariş Listesi",PW-M,82);
-      x.fillStyle="#7a6660";x.font="300 19px "+FT;x.fillText(ds+"  ·  Sayfa "+pages.length,PW-M,112);x.textAlign="left";
-      x.strokeStyle="#d8d0c8";x.lineWidth=1.5;x.beginPath();x.moveTo(M,146);x.lineTo(PW-M,146);x.stroke();y=176;}
-    page();
-    // tablo
-    var cols=[{t:"No",w:70,a:"center"},{t:"Seri",w:150},{t:"Harf / Yazı",w:190},{t:"Sembol",w:120},{t:"Bardak rengi",w:210},{t:"Varak",w:180},{t:"Adet",w:160,a:"center"}];
-    var TW=cols.reduce(function(s,c){return s+c.w;},0),RH=54,HH=56;
-    function row(vals,head,fill){var cx=M;x.fillStyle=fill||"#fff";x.fillRect(M,y,TW,head?HH:RH);
-      cols.forEach(function(cl,ci){var v=vals[ci],w=cl.w,h=head?HH:RH;x.strokeStyle="#bdb5ad";x.lineWidth=1.2;x.strokeRect(cx,y,w,h);
-        x.fillStyle="#2a2220";x.font=(head?"500 19px ":"400 20px ")+FT;x.textBaseline="middle";
-        var tx=cx+14,ty=y+h/2+1;
-        if(v&&typeof v==="object"){x.fillStyle=v.sw;x.beginPath();x.arc(cx+26,ty,11,0,Math.PI*2);x.fill();x.strokeStyle="rgba(0,0,0,.25)";x.lineWidth=1;x.stroke();x.fillStyle="#2a2220";x.fillText(v.t,cx+46,ty);}
-        else{var s=String(v==null?"":v);if(cl.a==="center"){x.textAlign="center";x.fillText(s,cx+w/2,ty);x.textAlign="left";}else x.fillText(s,tx,ty);}
-        cx+=w;});
-      y+=head?HH:RH;}
-    function head(){row(cols.map(function(c){return c.t;}),true,"#efe9e2");}
-    head();
-    CART.forEach(function(i,ix){if(y+RH>PH-M-RH){page();head();}var c=colorOf(i.color);
-      row([ix+1,i.seri==="monogram"?"Monogram":"Klasik",i.text||"—",itemSym(i),{t:c.name,sw:c.hex},{t:itemFoil(i),sw:i.foil==="gumus"?"#c9cfd2":"#d8b13c"},i.qty],false,ix%2?"#faf8f5":"#fff");});
-    if(y+RH>PH-M)page();
-    var cx0=M,wsum=cols.slice(0,6).reduce(function(s,c){return s+c.w;},0);
-    x.fillStyle="#efe9e2";x.fillRect(M,y,TW,RH);x.strokeStyle="#bdb5ad";x.strokeRect(M,y,wsum,RH);x.strokeRect(M+wsum,y,cols[6].w,RH);
-    x.fillStyle="#2a2220";x.font="500 20px "+FT;x.textAlign="right";x.fillText("TOPLAM",M+wsum-14,y+RH/2+1);x.textAlign="center";x.fillText(cartCount()+" bardak",M+wsum+cols[6].w/2,y+RH/2+1);x.textAlign="left";
-    y+=RH+60;
-    // görseller
-    var GC=3,GG=28,CW=(PW-2*M-GG*(GC-1))/GC,IH=CW*1.25,CH=IH+78;
-    return Promise.all(CART.map(function(i){return loadImg(i.img);})).then(function(imgs){
-      if(y+44+CH>PH-M){page();}
-      x.fillStyle="#2a2220";x.font="400 24px "+FD;x.textBaseline="alphabetic";x.fillText("Bardak görselleri",M,y+24);y+=48;
-      CART.forEach(function(i,ix){var col=ix%GC;if(col===0&&ix>0)y+=CH+GG;if(y+CH>PH-M){page();}
-        var gx=M+col*(CW+GG),im=imgs[ix];x.fillStyle="#1c1716";x.fillRect(gx,y,CW,IH);
-        if(im){var s=Math.max(CW/im.width,IH/im.height),dw=im.width*s,dh=im.height*s;x.save();x.beginPath();x.rect(gx,y,CW,IH);x.clip();x.drawImage(im,gx+(CW-dw)/2,y+(IH-dh)/2,dw,dh);x.restore();}
-        x.strokeStyle="#d8d0c8";x.lineWidth=1;x.strokeRect(gx,y,CW,IH);
-        x.fillStyle="#2a2220";x.font="500 20px "+FT;x.textBaseline="alphabetic";x.fillText((ix+1)+". "+(i.text||"—")+"  ·  "+i.qty+" adet",gx,y+IH+32);
-        x.fillStyle="#7a6660";x.font="300 17px "+FT;x.fillText(colorOf(i.color).name+" · "+itemFoil(i),gx,y+IH+58);});
-      return pages;});
-  }
-  function buildFiles(){
-    return (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(buildPages).then(function(pages){
-      return Promise.all(pages.map(function(p,i){return new Promise(function(r){p.toBlob(function(b){
-        r(new File([b],"zukha-siparis"+(pages.length>1?"-"+(i+1):"")+".jpg",{type:"image/jpeg"}));},"image/jpeg",0.92);});}));});
-  }
-  function prepPdf(){if(!CART.length)return;var gen={};PDF.gen=gen;PDF.files=null;el("shareIg").textContent="Hazırlanıyor…";
-    buildFiles().then(function(f){if(PDF.gen!==gen)return;PDF.files=f;el("shareIg").textContent="Instagram'dan gönder";});}
-  function cartText(){return "Zukha sipariş listesi ("+cartCount()+" bardak)\n\n"+CART.map(function(i,ix){return (ix+1)+". "+(i.seri==="monogram"?"Monogram "+i.text:"Klasik "+(i.text||"—"))+" · "+colorOf(i.color).name+" · "+itemFoil(i)+(i.seri==="monogram"?"":" · Sembol: "+itemSym(i))+" · "+i.qty+" adet";}).join("\n");}
-  var IG_DM="https://ig.me/m/zukhaistanbul";
-  el("shareIg").addEventListener("click",function(){
-    var M=el("cartMsg");
-    if(!PDF.files){M.textContent="Sipariş görseli hazırlanıyor, bir saniye sonra tekrar bas.";return;}
-    copyText(cartText());
-    if(IS_TOUCH&&navigator.canShare&&navigator.canShare({files:PDF.files})){
-      navigator.share({files:PDF.files}).then(function(){M.textContent="";},function(e){if(e&&e.name!=="AbortError"){PDF.files.forEach(function(f){download(f,f.name);});window.open(IG_DM,"_blank","noopener");}});
-      M.textContent="Açılan menüden Instagram'ı, sonra Direct'te zukhaistanbul'u seç. Sipariş yazısı da kopyalandı.";return;}
-    PDF.files.forEach(function(f){download(f,f.name);});
-    window.open(IG_DM,"_blank","noopener");
-    M.textContent="Sipariş görseli indirildi ve Zukha'nın Instagram mesajları açıldı. Görseli sohbete ekle; sipariş yazısı da kopyalandı, yapıştırabilirsin.";
-  });
-  renderCart();
 
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
   if(document.fonts&&document.fonts.load){document.fonts.load('93px "Libre Baskerville"').then(render,function(){});}
