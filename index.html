@@ -99,6 +99,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .btn:disabled{opacity:.5;cursor:default}
 .copied a{color:var(--gold)}
 .cartfab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:50;display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:0;border-radius:28px;padding:13px 20px;font:500 15px var(--body);box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+.cartfab.pop{animation:pop .45s ease}
 .cartfab b{background:var(--gold);border-radius:12px;min-width:24px;padding:1px 7px;font-weight:500}
 .cartfab[hidden],.cart[hidden]{display:none}
 .cart{position:fixed;inset:0;z-index:2000;background:rgba(20,16,15,.55);display:flex;justify-content:flex-end}
@@ -111,8 +113,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .ci img{width:84px;height:105px;object-fit:cover;border-radius:4px;background:#1c1716;flex:none}
 .cd{display:grid;gap:4px;align-content:start;font-size:14px;min-width:0;flex:1}
 .cd b{font-family:var(--display);font-weight:400;font-size:17px}
-.cd span{color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.cd span i{width:12px;height:12px;border-radius:50%;display:inline-block;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
+.cd span{color:var(--muted);display:block}
+.cd span i{width:11px;height:11px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:6px;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
 .cq{display:flex;align-items:center;gap:8px;margin-top:4px}
 .cq button{width:30px;height:30px;border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;font-size:16px;color:var(--ink)}
 .cq em{font-style:normal;min-width:56px;text-align:center}
@@ -122,7 +124,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 #cartTotal{font-family:var(--display);font-size:16px}
 .cartfoot .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cartfoot .btns .btn{text-align:center;padding:13px 8px;font-size:14px}
-.cartfoot .btns .btn:first-child{grid-column:1/-1;background:#25d366;border-color:#25d366}
+.cartfoot .btns{grid-template-columns:1fr}
+.cartfoot .btns .btn:first-child{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);border:0}
 .cartfoot .btns .btn:last-child{grid-column:auto}
 @media (max-width:820px){.left{display:contents}.order{order:3;padding-bottom:64px;border-top:1px solid var(--line);padding-top:18px}.order .btns{grid-template-columns:1fr 1fr}.order .btns .btn:last-child{grid-column:auto}}
 @media (max-width:820px){
@@ -225,8 +228,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     <div class="cartfoot">
       <p id="cartTotal"></p>
       <div class="btns">
-        <button class="btn" id="shareWa" type="button">WhatsApp'ta paylaş</button>
-        <button class="btn ghost" id="dlPdf" type="button">PDF indir</button>
+        <button class="btn" id="shareIg" type="button">Instagram'dan gönder</button>
         <button class="btn ghost" id="clearCart" type="button">Sepeti boşalt</button>
       </div>
       <p class="copied" id="cartMsg" aria-live="polite"></p>
@@ -723,11 +725,12 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function trUp(s){try{return s.toLocaleUpperCase("tr-TR");}catch(e){return s.toUpperCase();}}
   function curKey(){return [state.text,state.sym,state.foil,state.seri].join("|");}
   // bardak görüntüsü + sağ altta renk etiketi (sitedeki gibi)
-  function shot(front){
-    var src=(T&&T.snap)?T.snap(front):CV,w=src.width,h=src.height;
+  function shot(front,crop45){
+    var src=(T&&T.snap)?T.snap(front):CV,sw=src.width,sh=src.height,w=sw,h=sh,ox=0,oy=0;
+    if(crop45){if(sw/sh>0.8){w=Math.round(sh*0.8);ox=(sw-w)/2;}else{h=Math.round(sw/0.8);oy=(sh-h)/2;}}
     var c=document.createElement("canvas");c.width=w;c.height=h;var x=c.getContext("2d");
-    x.fillStyle="#1c1716";x.fillRect(0,0,w,h);x.drawImage(src,0,0);
-    var k=w/(CV.clientWidth||w),fs=Math.round(12*k*1.25),txt=trUp(color().name);
+    x.fillStyle="#1c1716";x.fillRect(0,0,w,h);x.drawImage(src,-ox,-oy);
+    var k=sw/(CV.clientWidth||sw),fs=Math.round(12*k*1.25),txt=trUp(color().name);
     x.font="400 "+fs+"px Jost, Arial, sans-serif";if("letterSpacing" in x)x.letterSpacing=(0.08*fs)+"px";
     var tw=x.measureText(txt).width,ph=fs*1.9,pw=tw+fs*1.7,px=w-pw-14*k,py=h-ph-12*k;
     x.fillStyle="rgba(42,34,32,.72)";x.beginPath();if(x.roundRect)x.roundRect(px,py,pw,ph,ph/2);else x.rect(px,py,pw,ph);x.fill();
@@ -746,7 +749,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   });
 
   var CART=[];try{CART=JSON.parse(localStorage.getItem("zukha-sepet")||"[]")||[];}catch(e){CART=[];}
-  function saveCart(){try{localStorage.setItem("zukha-sepet",JSON.stringify(CART));}catch(e){}PDF.blob=null;renderCart();}
+  function saveCart(){try{localStorage.setItem("zukha-sepet",JSON.stringify(CART));}catch(e){}PDF.files=null;renderCart();}
   function cartCount(){return CART.reduce(function(s,i){return s+i.qty;},0);}
   function itemSym(i){return i.seri==="monogram"?"—":(i.sym==="kalp"?"Kalp":i.sym==="yildiz"?"Yıldız":i.sym==="yonca"?"Yonca":"Yok");}
   function itemFoil(i){return i.foil==="gumus"?"Gümüş varak":"Altın varak";}
@@ -759,13 +762,14 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   el("addCart").addEventListener("click",function(){
     var q=clampQ(qIn.value);qIn.value=q;var btn=this;btn.disabled=true;
     whenFresh(function(){
-      var s=shot(true),t=document.createElement("canvas"),sc=Math.min(1,520/s.width);
+      var s=shot(true,true),t=document.createElement("canvas"),sc=Math.min(1,520/s.width);
       t.width=Math.round(s.width*sc);t.height=Math.round(s.height*sc);t.getContext("2d").drawImage(s,0,0,t.width,t.height);
       var key=[state.color,state.seri,state.text,state.seri==="monogram"?"":state.sym,state.foil].join("|"),it=null;
       CART.forEach(function(i){if(i.key===key)it=i;});
       if(it)it.qty=Math.min(999,it.qty+q);
       else CART.push({key:key,color:state.color,seri:state.seri,text:state.text.trim(),sym:state.sym,foil:state.foil,qty:q,img:t.toDataURL("image/jpeg",0.86)});
-      saveCart();btn.disabled=false;
+      saveCart();qIn.value=1;btn.textContent="Eklendi ✓";setTimeout(function(){btn.textContent="Sepete ekle";btn.disabled=false;},1100);
+      var fab=el("cartFab");fab.classList.remove("pop");void fab.offsetWidth;fab.classList.add("pop");
       el("copied").innerHTML=q+" bardak sepete eklendi. <a href=\"#\" id=\"seeCart\">Sepeti gör</a>";
       el("seeCart").addEventListener("click",function(e){e.preventDefault();openCart();});
     });
@@ -788,7 +792,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       '<div class="cq"><button type="button" data-a="-" data-i="'+ix+'" aria-label="Azalt">−</button><em>'+i.qty+' adet</em><button type="button" data-a="+" data-i="'+ix+'" aria-label="Artır">+</button>'+
       '<button type="button" class="rm" data-a="x" data-i="'+ix+'">Kaldır</button></div></div></div>';}).join("");
     el("cartTotal").textContent=n?"Toplam: "+n+" bardak":"";
-    ["shareWa","dlPdf","clearCart"].forEach(function(id){el(id).disabled=!CART.length;});
+    ["shareIg","clearCart"].forEach(function(id){el(id).disabled=!CART.length;});
     el("clearCart").textContent="Sepeti boşalt";el("clearCart").dataset.sure="";
   }
   el("cartList").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var i=+b.dataset.i,a=b.dataset.a;
@@ -797,7 +801,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   el("clearCart").addEventListener("click",function(){var b=this;if(!b.dataset.sure){b.dataset.sure="1";b.textContent="Emin misin? Tekrar bas";return;}CART=[];saveCart();el("cartMsg").textContent="";});
 
   // ---- PDF: üstte Excel tablosu gibi sipariş tablosu, altında bardak görselleri ----
-  var PDF={blob:null,busy:null};
+  var PDF={files:null};
   function loadImg(src){return new Promise(function(r){var i=new Image();i.onload=function(){r(i);};i.onerror=function(){r(null);};i.src=src;});}
   function buildPages(){
     var PW=1240,PH=1754,M=80,pages=[],c,x,y,FT="Jost, Arial, sans-serif",FD="'Libre Baskerville', Georgia, serif";
@@ -841,39 +845,25 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
         x.fillStyle="#7a6660";x.font="300 17px "+FT;x.fillText(colorOf(i.color).name+" · "+itemFoil(i),gx,y+IH+58);});
       return pages;});
   }
-  function pdfFromJpegs(js){ // js: [{b:Uint8Array,w,h}]
-    var enc=new TextEncoder(),parts=[],off=0,xr=[],W=595.28,H=841.89,n=2+js.length*3;
-    function add(s){var b=typeof s==="string"?enc.encode(s):s;parts.push(b);off+=b.length;}
-    add("%PDF-1.4\n%âãÏÓ\n");
-    xr[1]=off;add("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
-    xr[2]=off;add("2 0 obj\n<< /Type /Pages /Count "+js.length+" /Kids ["+js.map(function(_,i){return (3+i*3)+" 0 R";}).join(" ")+"] >>\nendobj\n");
-    js.forEach(function(j,i){var p=3+i*3,im=p+1,ct=p+2,cs="q "+W+" 0 0 "+H+" 0 0 cm /Im0 Do Q";
-      xr[p]=off;add(p+" 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W+" "+H+"] /Resources << /XObject << /Im0 "+im+" 0 R >> >> /Contents "+ct+" 0 R >>\nendobj\n");
-      xr[im]=off;add(im+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+j.w+" /Height "+j.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.b.length+" >>\nstream\n");add(j.b);add("\nendstream\nendobj\n");
-      xr[ct]=off;add(ct+" 0 obj\n<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream\nendobj\n");});
-    var xo=off,t="xref\n0 "+(n+1)+"\n0000000000 65535 f \n";for(var i=1;i<=n;i++)t+=("000000000"+xr[i]).slice(-10)+" 00000 n \n";
-    add(t+"trailer\n<< /Size "+(n+1)+" /Root 1 0 R >>\nstartxref\n"+xo+"\n%%EOF");
-    return new Blob(parts,{type:"application/pdf"});
-  }
-  function buildPdf(){
+  function buildFiles(){
     return (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(buildPages).then(function(pages){
-      return Promise.all(pages.map(function(p){return new Promise(function(r){p.toBlob(function(b){b.arrayBuffer().then(function(a){r({b:new Uint8Array(a),w:p.width,h:p.height});});},"image/jpeg",0.9);});}));
-    }).then(pdfFromJpegs);
+      return Promise.all(pages.map(function(p,i){return new Promise(function(r){p.toBlob(function(b){
+        r(new File([b],"zukha-siparis"+(pages.length>1?"-"+(i+1):"")+".jpg",{type:"image/jpeg"}));},"image/jpeg",0.92);});}));});
   }
-  function prepPdf(){if(!CART.length)return;var gen={};PDF.gen=gen;PDF.blob=null;el("shareWa").textContent="Hazırlanıyor…";
-    buildPdf().then(function(b){if(PDF.gen!==gen)return;PDF.blob=b;el("shareWa").textContent="WhatsApp'ta paylaş";});}
+  function prepPdf(){if(!CART.length)return;var gen={};PDF.gen=gen;PDF.files=null;el("shareIg").textContent="Hazırlanıyor…";
+    buildFiles().then(function(f){if(PDF.gen!==gen)return;PDF.files=f;el("shareIg").textContent="Instagram'dan gönder";});}
   function cartText(){return "Zukha sipariş listesi ("+cartCount()+" bardak)\n\n"+CART.map(function(i,ix){return (ix+1)+". "+(i.seri==="monogram"?"Monogram "+i.text:"Klasik "+(i.text||"—"))+" · "+colorOf(i.color).name+" · "+itemFoil(i)+(i.seri==="monogram"?"":" · Sembol: "+itemSym(i))+" · "+i.qty+" adet";}).join("\n");}
-  var PDFNAME="zukha-siparis.pdf";
-  el("dlPdf").addEventListener("click",function(){if(PDF.blob)download(PDF.blob,PDFNAME);else buildPdf().then(function(b){PDF.blob=b;download(b,PDFNAME);});});
-  el("shareWa").addEventListener("click",function(){
-    if(!PDF.blob){el("cartMsg").textContent="PDF hazırlanıyor, bir saniye sonra tekrar bas.";return;}
-    var f=new File([PDF.blob],PDFNAME,{type:"application/pdf"});
-    if(IS_TOUCH&&navigator.canShare&&navigator.canShare({files:[f]})){
-      navigator.share({files:[f],title:"Zukha sipariş listesi"}).then(function(){el("cartMsg").textContent="";},function(e){if(e&&e.name!=="AbortError")el("cartMsg").textContent="Paylaşılamadı. PDF indir ile kaydedip WhatsApp'tan gönderebilirsin.";});
-      el("cartMsg").textContent="Açılan menüden WhatsApp'ı seç.";return;}
-    download(PDF.blob,PDFNAME);
-    window.open("https://wa.me/?text="+encodeURIComponent(cartText()),"_blank","noopener");
-    el("cartMsg").textContent="PDF indirildi ve WhatsApp açıldı. Kişiyi seçip indirilen PDF'i sohbete ekle.";
+  var IG_DM="https://ig.me/m/zukhaistanbul";
+  el("shareIg").addEventListener("click",function(){
+    var M=el("cartMsg");
+    if(!PDF.files){M.textContent="Sipariş görseli hazırlanıyor, bir saniye sonra tekrar bas.";return;}
+    copyText(cartText());
+    if(IS_TOUCH&&navigator.canShare&&navigator.canShare({files:PDF.files})){
+      navigator.share({files:PDF.files}).then(function(){M.textContent="";},function(e){if(e&&e.name!=="AbortError"){PDF.files.forEach(function(f){download(f,f.name);});window.open(IG_DM,"_blank","noopener");}});
+      M.textContent="Açılan menüden Instagram'ı, sonra Direct'te zukhaistanbul'u seç. Sipariş yazısı da kopyalandı.";return;}
+    PDF.files.forEach(function(f){download(f,f.name);});
+    window.open(IG_DM,"_blank","noopener");
+    M.textContent="Sipariş görseli indirildi ve Zukha'nın Instagram mesajları açıldı. Görseli sohbete ekle; sipariş yazısı da kopyalandı, yapıştırabilirsin.";
   });
   renderCart();
 
