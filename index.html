@@ -254,6 +254,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function rAt(z){for(var i=1;i<BODY.length;i++){if(z<=BODY[i][1]){var a=BODY[i-1],b=BODY[i];return a[0]+(b[0]-a[0])*(z-a[1])/(b[1]-a[1]);}}return BODY[BODY.length-1][0];}
   var BZ0=14, BZ1=54, PH=82*Math.PI/180, RMID=rAt(34), DW=Math.round(2*PH*RMID*PXMM), DH=Math.round((BZ1-BZ0)*PXMM);
   var MONO_Z=31; // klasik harflerin orta yüksekliği (mm, tabandan)
+  var MONO_CZ_KON=30.5; // konik parlak bardaklarda (sarı, mint, lila) monogram ortası: gövdenin tam ortası
+  function isKon(){return SHAPE[state.color]==="konik";}
   var MONO_CZ=35; // monogram harfin orta yüksekliği (mm): alt ucu 18,5 mm, bombanın (~10 mm) 8,5 mm üstü
 
   function decalCanvas(){
@@ -267,9 +269,13 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     if(isMono()){
       // Monogram serisi: tek, büyük el yazısı harf (üst-alt arası 3,3 cm), bandın ortasında
       hasSym=false;var MH=33*PXMM; // harfin en üst ve en alt noktası arası 3,3 cm
-      var gl=MONO[txt],cy=(BZ1-MONO_CZ)*PXMM;
+      var gl=MONO[txt],cy=(BZ1-(isKon()?MONO_CZ_KON:MONO_CZ))*PXMM;
       if(gl){var k=MH/1000,bw=gl.w*k;x0=DW/2-bw/2;tw=bw;capH=MH;base=cy+MH/2;
-        x.save();x.translate(x0,cy-MH/2);x.scale(k,k);x.fill(new Path2D(gl.d),"evenodd");x.restore();}
+        x.save();x.translate(x0,cy-MH/2);x.scale(k,k);x.fill(new Path2D(gl.d),"evenodd");x.restore();
+        if(isKon()){ // konik gövde yukarı doğru genişler: her satırı ters oranda daraltıp harfi düz tut
+          var w2=document.createElement("canvas");w2.width=DW;w2.height=DH;var wx=w2.getContext("2d");
+          for(var yy=0;yy<DH;yy++){var sc=RMID/rAt(BZ1-yy/PXMM),ww=DW*sc;wx.drawImage(m,0,yy,DW,1,(DW-ww)/2,yy,ww,1);}
+          x.clearRect(0,0,DW,DH);x.drawImage(w2,0,0);}}
     }else if(txt){x.fillText(txt,x0,base);x.lineWidth=1.8*KP;x.strokeText(txt,x0,base);}
     if(hasSym){
       x.save();
@@ -280,7 +286,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       x.restore();
     }
     var silver=state.foil==="gumus";
-    var P=silver?{lo:"#8f979b",mid:"#c9cfd2",hi:"#f7f9fa"}:{lo:"#a27a1c",mid:"#d8b13c",hi:"#fbe9a4"};
+    var KG=isMono()&&isKon();
+    var P=silver?{lo:"#8f979b",mid:"#c9cfd2",hi:"#f7f9fa"}:(KG?{lo:"#7a560c",mid:"#c4962a",hi:"#fff3c2"}:{lo:"#a27a1c",mid:"#d8b13c",hi:"#fbe9a4"}); // parlak konik bardakta altın zeminden ayrışsın
     // varak renk skalası (koyu buruşuk -> parlak kenar); gümüş gerçek metal gri
     var STOPS=silver?[[60,65,70],[112,118,124],[160,166,172],[205,210,215],[240,243,246]]:[[55,45,10],[110,95,35],[165,150,80],[220,212,145],[250,247,200]],GL=silver?[255,255,255]:[255,252,225];
     var f=document.createElement("canvas");f.width=DW;f.height=DH;var g=f.getContext("2d");
@@ -292,7 +299,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var sh=g.createRadialGradient(DW*0.42,DH*0.3,0,DW*0.42,DH*0.3,DH*0.9);sh.addColorStop(0,"rgba(255,250,225,.35)");sh.addColorStop(1,"rgba(255,250,225,0)");g.fillStyle=sh;g.fillRect(0,0,DW,DH);
     g.globalCompositeOperation="destination-in";g.drawImage(m,0,0);
     // --- derinlik: harfler yüzeye bastırılmış (çukur), kenarlar eğimli, varak buruşuk ---
-    var DEPTH=0.18, MMPX=1/PXMM;
+    var DEPTH=(isMono()&&isKon())?0.1:0.18, MMPX=1/PXMM; // parlak konik bardakta daha sığ baskı: kenarlarda kırık parlama olmasın
     function cv2(){var c=document.createElement("canvas");c.width=DW;c.height=DH;return c;}
     var ov=cv2(),cx=ov.getContext("2d");cx.drawImage(f,0,0);
     // karşıdan da derinlik görünsün: çukurun iç kenarlarında gölge (üst-sol duvar), alt-sağda ışık, harfin çevresinde ince koyu çizgi
@@ -302,7 +309,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var rg2=cv2(),rx=rg2.getContext("2d");rx.filter="blur("+(3*KP)+"px)";rx.drawImage(m,0,0);rx.filter="none";rx.globalCompositeOperation="destination-out";rx.drawImage(m,0,0);
     rx.globalCompositeOperation="source-in";rx.fillStyle="#000";rx.fillRect(0,0,DW,DH);
     cx.globalAlpha=0.22;cx.drawImage(rg2,0,0);
-    cx.globalAlpha=0.32;cx.drawImage(tnt(m,3*KP,4*KP,"#3a2800",1.5*KP),0,0);
+    cx.globalAlpha=KG?0.5:0.32;cx.drawImage(tnt(m,3*KP,4*KP,"#3a2800",1.5*KP),0,0);
     cx.globalAlpha=0.55;cx.drawImage(tnt(m,-3*KP,-4*KP,"#fffbe8",1.5*KP),0,0);
     cx.globalAlpha=1;
     var bl=cv2(),bx=bl.getContext("2d");bx.filter="blur("+(1.5*KP)+"px)";bx.drawImage(m,0,0);
@@ -482,10 +489,10 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     try{localStorage.setItem("zukha-onizleme",JSON.stringify(state));}catch(e){}
     // butonlar seçime göre güncellenir: Instagram'da mesaj hazır gelir, mağazada seçilen rengin ürünü açılır
     var igB=el("igBtn");if(igB)igB.href="https://ig.me/m/zukhaistanbul";
-    var shB=el("shopBtn");if(shB)shB.href=SHOP_LINKS[state.color]||SHOP_LINKS.genel;
+    var shB=el("shopBtn");if(shB)shB.href=state.seri==="monogram"?SHOP_MONOGRAM:(SHOP_LINKS[state.color]||SHOP_LINKS.genel);
     if(!T)return;
     T.setShape(SHAPE[c.id]||"ayakli");T.setColor(c.hex);
-    var key=[state.text,state.sym,state.foil,state.seri].join("|");
+    var key=[state.text,state.sym,state.foil,state.seri,isMono()&&isKon()].join("|");
     if(key!==DEC.key||!DEC.d){DEC.key=key;clearTimeout(DEC.t);DEC.t=setTimeout(function(){if(DEC.key!==key)return;DEC.d=decalCanvas();T.setDecal(DEC.d);DEC.applied=key;},DEC.d?320:0);}
     else T.setMap(DEC.d.ov);
   }
@@ -497,6 +504,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     if(!ok&&navigator.clipboard&&navigator.clipboard.writeText){try{navigator.clipboard.writeText(t).catch(function(){});ok=true;}catch(e){}}
     return ok;}
   // Shopier ürün linkleri: her renk için ürün sayfası gelince buraya yazılacak (ör. vizon:"https://www.shopier.com/zukhaistanbul/12345678")
+  // Monogram serisi: bardak rengi ne olursa olsun tek ürün sayfası
+  var SHOP_MONOGRAM="https://www.shopier.com/zukhaistanbul/52233757";
   var SHOP_LINKS={genel:"https://www.shopier.com/zukhaistanbul",
     kahve:"https://www.shopier.com/zukhaistanbul/51766731",
     mint:"https://www.shopier.com/zukhaistanbul/51767236",
