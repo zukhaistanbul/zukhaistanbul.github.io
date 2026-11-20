@@ -299,7 +299,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var sh=g.createRadialGradient(DW*0.42,DH*0.3,0,DW*0.42,DH*0.3,DH*0.9);sh.addColorStop(0,"rgba(255,250,225,.35)");sh.addColorStop(1,"rgba(255,250,225,0)");g.fillStyle=sh;g.fillRect(0,0,DW,DH);
     g.globalCompositeOperation="destination-in";g.drawImage(m,0,0);
     // --- derinlik: harfler yüzeye bastırılmış (çukur), kenarlar eğimli, varak buruşuk ---
-    var DEPTH=(isMono()&&isKon())?0.1:0.18, MMPX=1/PXMM; // parlak konik bardakta daha sığ baskı: kenarlarda kırık parlama olmasın
+    var DEPTH=(isMono()&&isKon())?0.3:0.45, MMPX=1/PXMM; // parlak konik bardakta daha sığ baskı: kenarlarda kırık parlama olmasın
     function cv2(){var c=document.createElement("canvas");c.width=DW;c.height=DH;return c;}
     var ov=cv2(),cx=ov.getContext("2d");cx.drawImage(f,0,0);
     // karşıdan da derinlik görünsün: çukurun iç kenarlarında gölge (üst-sol duvar), alt-sağda ışık, harfin çevresinde ince koyu çizgi
@@ -308,9 +308,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       var c2=cv2(),u=c2.getContext("2d");u.filter="blur("+bl+"px)";u.drawImage(c,0,0);u.filter="none";u.globalCompositeOperation="destination-in";u.drawImage(src,0,0);return c2;}
     var rg2=cv2(),rx=rg2.getContext("2d");rx.filter="blur("+(3*KP)+"px)";rx.drawImage(m,0,0);rx.filter="none";rx.globalCompositeOperation="destination-out";rx.drawImage(m,0,0);
     rx.globalCompositeOperation="source-in";rx.fillStyle="#000";rx.fillRect(0,0,DW,DH);
-    cx.globalAlpha=0.22;cx.drawImage(rg2,0,0);
-    cx.globalAlpha=KG?0.5:0.32;cx.drawImage(tnt(m,3*KP,4*KP,"#3a2800",1.5*KP),0,0);
-    cx.globalAlpha=0.55;cx.drawImage(tnt(m,-3*KP,-4*KP,"#fffbe8",1.5*KP),0,0);
+    cx.globalAlpha=0.45;cx.drawImage(rg2,0,0);
+    cx.globalAlpha=0.65;cx.drawImage(tnt(m,6*KP,8*KP,"#2a1c00",2.5*KP),0,0);
+    cx.globalAlpha=0.45;cx.drawImage(tnt(m,-5*KP,-7*KP,"#fff6d8",2*KP),0,0);
     cx.globalAlpha=1;
     var bl=cv2(),bx=bl.getContext("2d");bx.filter="blur("+(1.5*KP)+"px)";bx.drawImage(m,0,0);
     var nz=document.createElement("canvas");nz.width=Math.round(DW/(2*KP));nz.height=Math.round(DH/(2*KP));var nzx=nz.getContext("2d"),nd=nzx.createImageData(nz.width,nz.height);
