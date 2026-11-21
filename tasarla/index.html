@@ -7,21 +7,27 @@
 <meta name="description" content="El yapımı monogram espresso bardağını tasarla: rengini seç, harflerini yaz, altın ya da gümüş varakla 3D önizle.">
 <meta property="og:title" content="Zukha İstanbul · Bardağını Tasarla">
 <meta property="og:description" content="Rengini seç, harflerini yaz, bardağını 3D gör.">
+<meta name="theme-color" content="#140d0c">
+<link rel="icon" href="../img/site/logo-yazi.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   /* Tek tema: Zukha'nın bordo-siyah dünyası. Solda sahne (bardak), sağda seçimler; telefonda alt alta. */
-  --ink:#2a2220;          /* koyu yazı */
-  --muted:#7a6660;        /* ikincil yazı */
-  --stage:#1c1716;        /* bardak sahnesi: koyu gri (renk tonları için) */
-  --bg:#ffffff;           /* beyaz zemin */
-  --line:rgba(42,34,32,.16);
-  --gold:#a8803a;
+  --ink:#efe6df;          /* açık yazı (ana sitedeki gibi) */
+  --muted:#b3a59c;        /* ikincil yazı */
+  --stage:#1c1716;        /* bardak sahnesi: DEĞİŞMEZ, bardak renkleri buna göre ayarlı */
+  --bg:#140d0c;           /* ana sitenin sıcak siyah zemini */
+  --surface:#1b1110;
+  --line:rgba(239,230,223,.14);
+  --gold:#c9a45c;
+  --gold2:#a8803a;
   --display:"Libre Baskerville", Georgia, "Times New Roman", serif;
   --body:"Jost", "Helvetica Neue", Arial, sans-serif;
-  color-scheme:light;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -31,7 +37,7 @@ header{display:flex;justify-content:space-between;align-items:center;gap:16px;fl
 .logo{height:110px;width:auto;display:block;border-radius:3px}
 header p{margin:0;color:var(--muted);font-size:13px;letter-spacing:.14em}
 .main{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
-.stage{background:var(--stage);border-radius:6px;aspect-ratio:4/5;position:relative;overflow:hidden}
+.stage{background:var(--stage);border-radius:6px;box-shadow:0 0 0 1px rgba(239,230,223,.08);aspect-ratio:4/5;position:relative;overflow:hidden}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .disclaimer{margin:4px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted);text-align:left;max-width:52ch}
 .chip{position:absolute;right:14px;bottom:12px;font-size:12px;color:#f3ede4;letter-spacing:.08em;text-transform:uppercase;background:rgba(42,34,32,.72);padding:4px 10px;border-radius:20px}
@@ -41,7 +47,7 @@ header p{margin:0;color:var(--muted);font-size:13px;letter-spacing:.14em}
 .stage.full .x3d{display:flex}
 @media (max-width:820px){.x3d{top:76px}}
 .rot{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);z-index:3;display:flex;gap:8px}
-.rot button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.92);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.rot button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(20,13,12,.82);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .rot button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (max-width:820px){.rot{left:auto;right:10px;top:50%;bottom:auto;transform:translateY(-50%);flex-direction:column}.rot button{width:38px;height:38px;font-size:17px}#rotF{padding:0!important;width:38px!important;font-size:11px!important}}
 .panel{display:grid;gap:22px}
@@ -56,9 +62,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .opt{position:relative}
 .opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
 .opt span{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;text-align:center;padding:10px 4px;border:1px solid var(--line);border-radius:4px;cursor:pointer;transition:border-color .15s}
-.opt i{width:38px;height:38px;border-radius:50%;display:block;box-shadow:inset 0 0 0 3px #f2efe6,0 0 0 1px rgba(0,0,0,.4)}
+.opt i{width:38px;height:38px;border-radius:50%;display:block;box-shadow:inset 0 0 0 3px #140d0c,0 0 0 1px rgba(239,230,223,.35)}
 .opt input:disabled+span{opacity:.35;cursor:not-allowed}
-.opt input:checked+span{border-color:var(--gold);background:rgba(168,128,58,.10)}
+.opt input:checked+span{border-color:var(--gold);background:rgba(201,164,92,.12)}
 .opt input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
 .syms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .foils{grid-template-columns:repeat(2,1fr)}
@@ -81,7 +87,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .order .btns .btn{text-align:center;padding:12px 6px;font-size:14px}
 .summary{font-family:var(--display);font-size:15px;margin:0}
 .btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn{appearance:none;border:1px solid var(--gold);background:var(--gold);color:#fff;font-family:var(--body);font-weight:500;font-size:15px;padding:12px 18px;border-radius:4px;cursor:pointer;text-decoration:none;letter-spacing:.02em}
+.btn{appearance:none;border:1px solid var(--gold);background:var(--gold);color:#1a1210;font-family:var(--body);font-weight:500;font-size:15px;padding:12px 18px;border-radius:4px;cursor:pointer;text-decoration:none;letter-spacing:.02em}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
 .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .note{font-size:12px;color:var(--muted);margin:0}
@@ -121,19 +127,19 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .order .btns.cartbtns{grid-template-columns:1fr}
 .btn.addcart{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;padding:14px 18px}
 .btn.addcart svg{width:18px;height:18px}
-.cartfab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:900;display:none;align-items:center;gap:10px;background:#2a2220;color:#f3ede4;border:1px solid rgba(243,237,228,.25);border-radius:40px;padding:12px 18px 12px 14px;font-family:var(--body);font-size:14px;letter-spacing:.04em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.cartfab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:900;display:none;align-items:center;gap:10px;background:#2b0809;color:#f3ede4;border:1px solid rgba(201,164,92,.5);border-radius:40px;padding:12px 18px 12px 14px;font-family:var(--body);font-size:14px;letter-spacing:.04em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.28)}
 .cartfab.on{display:flex}
 .cartfab svg{width:20px;height:20px}
-.cartfab b{background:var(--gold);color:#fff;border-radius:20px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;padding:0 6px}
+.cartfab b{background:var(--gold);color:#1a1210;border-radius:20px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;padding:0 6px}
 .cartfab.pulse{animation:pulse .6s ease}
 @keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
 .drawer{position:fixed;inset:0;z-index:1100;display:none}
 .drawer.open{display:block}
 .drawer .scrim{position:absolute;inset:0;background:rgba(20,13,12,.55)}
-.drawer .panel2{position:absolute;top:0;right:0;bottom:0;width:min(460px,100vw);background:#fff;display:flex;flex-direction:column;box-shadow:-20px 0 40px rgba(0,0,0,.2)}
+.drawer .panel2{position:absolute;top:0;right:0;bottom:0;width:min(460px,100vw);background:var(--surface);display:flex;flex-direction:column;box-shadow:-20px 0 40px rgba(0,0,0,.2)}
 .dh{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
 .dh h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
-.dh button{appearance:none;border:1px solid var(--line);background:#fff;width:40px;height:40px;border-radius:50%;font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
+.dh button{appearance:none;border:1px solid var(--line);background:transparent;width:40px;height:40px;border-radius:50%;font-size:22px;line-height:1;cursor:pointer;color:var(--ink)}
 .db{flex:1;overflow:auto;padding:8px 20px 20px;-webkit-overflow-scrolling:touch}
 .df{border-top:1px solid var(--line);padding:16px 20px calc(16px + env(safe-area-inset-bottom));display:grid;gap:8px}
 .df .btn{text-align:center;padding:14px 10px;font-size:15px}
@@ -149,9 +155,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .qty .rm{appearance:none;border:0;background:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:0}
 .empty{color:var(--muted);text-align:center;padding:48px 10px;font-size:15px}
 .total{font-size:13px;color:var(--muted);margin:0}
-.steps-intro{font-size:14px;color:var(--ink);background:rgba(168,128,58,.08);border:1px solid rgba(168,128,58,.3);border-radius:6px;padding:12px 14px;margin:14px 0 6px;line-height:1.5}
+.steps-intro{font-size:14px;color:var(--ink);background:rgba(201,164,92,.08);border:1px solid rgba(201,164,92,.3);border-radius:6px;padding:12px 14px;margin:14px 0 6px;line-height:1.5}
 .st{border:1px solid var(--line);border-radius:6px;padding:14px;margin-top:12px;display:grid;gap:10px}
-.st.done{border-color:rgba(60,140,90,.45);background:rgba(60,140,90,.05)}
+.st.done{border-color:rgba(110,190,140,.45);background:rgba(110,190,140,.06)}
 .st .sn{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
 .st .sp{font-family:var(--display);font-size:16px}
 .st ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6}
@@ -190,9 +196,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       <div class="order">
         <div class="btns cartbtns"><button class="btn addcart" id="addCart" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>Sepete ekle</button></div>
         <div class="btns">
-          <a class="btn ghost" id="igBtn" href="https://ig.me/m/zukhaistanbul" target="_blank" rel="noopener">Instagram'dan yaz</a>
-          <a class="btn ghost" id="shopBtn" href="https://www.shopier.com/zukhaistanbul" target="_blank" rel="noopener">Mağazaya git</a>
+          <a class="btn ghost" id="shopBtn" href="https://www.shopier.com/zukhaistanbul" target="_blank" rel="noopener" style="grid-column:1/-1">Shopier'de aç</a>
         </div>
+        <p class="note" style="margin:0">Birden fazla bardak mı istiyorsun? Hepsini sepete ekle, siparişini Instagram'dan gönder.</p>
         <p class="copied" id="copied" aria-live="polite"></p>
       </div>
     </div>
@@ -566,6 +572,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function mkMap(ov){var c=document.createElement("canvas");c.width=ov.width;c.height=ov.height;var x=c.getContext("2d");x.fillStyle=color().hex;x.fillRect(0,0,c.width,c.height);x.drawImage(ov,0,0);return c;}
 
   function copyText(t){var ok=false;
+    if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext){try{navigator.clipboard.writeText(t).catch(function(){});}catch(e){}}
     try{var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;top:0;left:0;opacity:0;font-size:16px";document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);ok=document.execCommand("copy");document.body.removeChild(ta);}catch(e){}
     if(!ok&&navigator.clipboard&&navigator.clipboard.writeText){try{navigator.clipboard.writeText(t).catch(function(){});ok=true;}catch(e){}}
     return ok;}
@@ -805,7 +812,13 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function esc(t){return String(t).replace(/[&<>"]/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch];});}
   function renderDrawer(){
     var B=el("drawerBody"),F=el("drawerFoot"),h="",n=0;cart.forEach(function(it){n+=it.qty;});
-    if(!cart.length){view="cart";}
+    if(!cart.length||(n>1&&view==="steps")){view="cart";}
+    if(view==="ig"){
+      el("drawerTitle").textContent="Instagram'dan sipariş";
+      B.innerHTML='<p class="steps-intro"><b>1.</b> Aşağıdaki mesajı kopyala.<br><b>2.</b> Instagram\'ı aç, mesaj kutusuna <b>basılı tut → Yapıştır</b> ve gönder.</p><div class="notebox"><pre id="igPre">'+esc(igText())+'</pre></div><button class="back" type="button" data-a="back">← Sepete dön</button>';
+      F.innerHTML='<button class="btn" type="button" data-a="igcopy" id="igCopy">1. Mesajı kopyala</button><a class="btn ghost" id="igOpen" href="https://ig.me/m/zukhaistanbul" target="_blank" rel="noopener" data-a="igopen">2. Instagram\'ı aç</a>';
+      return;
+    }
     if(view==="cart"){
       el("drawerTitle").textContent="Sepetim";
       if(!cart.length){B.innerHTML='<p class="empty">Sepetin boş.<br>Bir bardak tasarla ve "Sepete ekle"ye bas.</p>';F.innerHTML='<button class="btn" type="button" data-a="close">Tasarlamaya devam et</button>';return;}
@@ -813,10 +826,10 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
         h+='<div class="ci"><img alt="" src="'+(it.img||"")+'"><div><div class="t1">'+esc(label(it))+'</div><div class="t2"><span class="dot" style="background:'+c.hex+'"></span>'+c.name+'<br>'+(it.seri==="monogram"?"İmza monogram":"Klasik seri")+' · '+(it.foil==="gumus"?"Gümüş":"Altın")+' varak</div></div>'+
           '<div class="qty"><div class="q"><button type="button" data-a="dec" data-i="'+i+'" aria-label="Azalt">−</button><span>'+it.qty+'</span><button type="button" data-a="inc" data-i="'+i+'" aria-label="Artır">+</button></div><button class="rm" type="button" data-a="rm" data-i="'+i+'">Kaldır</button></div></div>';});
       B.innerHTML=h;
-      F.innerHTML='<p class="total">'+n+' bardak · Ödeme Shopier\'in güvenli altyapısıyla yapılır.</p><button class="btn" type="button" data-a="checkout">Siparişi tamamla</button><button class="btn ghost" type="button" data-a="ig">Instagram\'dan sipariş ver</button><button class="btn ghost" type="button" data-a="close">Bir bardak daha tasarla</button>';
+      F.innerHTML=n===1?'<p class="total">1 bardak · Ödeme Shopier\'in güvenli altyapısıyla yapılır.</p><button class="btn" type="button" data-a="checkout">Shopier\'de aç</button><button class="btn ghost" type="button" data-a="close">Bir bardak daha tasarla</button>':'<p class="total">'+n+' bardak · Birden fazla bardak siparişlerini Instagram\'dan alıyoruz. Sepetin mesaja hazır olarak kopyalanır.</p><button class="btn" type="button" data-a="ig">Instagram\'dan sipariş ver</button><button class="btn ghost" type="button" data-a="close">Bir bardak daha tasarla</button>';
     }else{
       el("drawerTitle").textContent="Siparişi tamamla";var G=groups(),all=true;
-      h='<p class="steps-intro">Shopier sepetine ürünleri sırayla ekleyeceğiz. Her adımda açılan sayfada <b>aşağıdaki seçimleri yap</b>, <b>Sepete ekle</b>\'ye bas ve bu sayfaya geri dön.</p>';
+      h='<p class="steps-intro">Açılan Shopier sayfasında <b>aşağıdaki seçimleri yap</b>, <b>Sepete ekle</b>\'ye bas ve bu sayfaya geri dön.</p>';
       G.forEach(function(g,i){var d=!!doneSteps[i];if(!d)all=false;
         h+='<div class="st'+(d?' done':'')+'"><span class="sn">Adım '+(i+1)+' / '+G.length+(d?' · eklendi ✓':'')+'</span><span class="sp">'+esc(g.s.product)+'</span><ul>'+g.s.opts.map(function(o){return '<li>'+esc(o[0])+': <b>'+esc(o[1])+'</b></li>';}).join("")+'<li>Adet: <b>'+g.qty+'</b></li></ul><a class="btn" href="'+g.s.url+'" target="_blank" rel="noopener" data-a="step" data-i="'+i+'">'+(d?"Tekrar aç":"Shopier'de aç")+'</a></div>';});
       h+='<div class="notebox"><span class="sn" style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)">Son adım · sipariş notu</span><pre>'+esc(noteText())+'</pre><button class="btn ghost" type="button" data-a="copynote">Notu kopyala</button><span class="t2" style="font-size:13px;color:var(--muted)">Shopier\'de ödeme sırasında sipariş notu alanına yapıştır.</span></div>';
@@ -840,7 +853,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     else if(a==="step"){doneSteps[i]=true;copyText(noteText());setTimeout(renderDrawer,300);}
     else if(a==="copynote"){copyText(noteText());toast("Sipariş notu kopyalandı.");}
     else if(a==="gopay"){copyText(noteText());toast("Sipariş notu kopyalandı. Ödemede not alanına yapıştır.");}
-    else if(a==="ig"){e.preventDefault();copyText(igText());toast("Sepetin kopyalandı. Instagram'da mesaja yapıştırıp gönder.");setTimeout(function(){window.open("https://ig.me/m/zukhaistanbul","_blank","noopener");},700);}
+    else if(a==="ig"){e.preventDefault();copyText(igText());view="ig";renderDrawer();el("drawerBody").scrollTop=0;var c=el("igCopy");if(c){c.textContent="Kopyalandı ✓ (tekrar kopyala)";}var o=el("igOpen");if(o)o.className="btn";}
+    else if(a==="igcopy"){copyText(igText());var c2=el("igCopy");if(c2)c2.textContent="Kopyalandı ✓ (tekrar kopyala)";var o2=el("igOpen");if(o2)o2.className="btn";toast("Mesaj kopyalandı. Instagram'da yapıştırıp gönder.");}
   });
   updFab();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
