@@ -123,7 +123,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 @media (max-width:360px){.opt span{font-size:11px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* ---------- SEPET ---------- */
+/* ---------- SEPET (kapalı: sipariş doğrudan Shopier'den) ---------- */
+.cartfab,.drawer,.cartbtns{display:none!important}
 .order .btns.cartbtns{grid-template-columns:1fr}
 .btn.addcart{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;padding:14px 18px}
 .btn.addcart svg{width:18px;height:18px}
@@ -200,11 +201,10 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
       <button class="x3d" id="x3d" type="button" aria-label="Kapat">&times;</button>
     </div>
       <div class="order">
-        <div class="btns cartbtns"><button class="btn addcart" id="addCart" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>Sepete ekle</button></div>
+        <div class="btns cartbtns" hidden><button class="btn addcart" id="addCart" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>Sepete ekle</button></div>
         <div class="btns">
-          <a class="btn ghost" id="shopBtn" href="https://www.shopier.com/zukhaistanbul" target="_blank" rel="noopener" style="grid-column:1/-1">Shopier'de aç</a>
+          <a class="btn" id="shopBtn" href="https://www.shopier.com/zukhaistanbul" target="_blank" rel="noopener" style="grid-column:1/-1;text-align:center;padding:14px 18px;font-size:15px">Shopier'de satın al</a>
         </div>
-        <p class="note" style="margin:0">Birden fazla bardak mı istiyorsun? Hepsini sepete ekle, siparişini Instagram'dan gönder.</p>
         <p class="copied" id="copied" aria-live="polite"></p>
       </div>
     </div>
