@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/site/hero-l.webp" imagesrcset="img/site/hero-s.webp 720w, img/site/hero-l.webp 1200w" imagesizes="(max-width:860px) 100vw, 50vw" fetchpriority="high">
+<link rel="preload" as="image" href="img/site/hero-l.webp" imagesrcset="img/site/hero-s.webp 720w, img/site/hero-l.webp 960w" imagesizes="(max-width:860px) 100vw, 50vw" fetchpriority="high">
 <style>
 :root{
   --bg:#140d0c;          /* sıcak siyah */
@@ -173,6 +173,13 @@ html[lang="ar"] .oitem .go{letter-spacing:0;font-size:13px}
 @media (max-width:520px){.olist{grid-template-columns:1fr}}
 
 /* ---------- tasarla bandı ---------- */
+.gift{padding-bottom:0}
+.gift-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(10px,1.4vw,18px);align-items:stretch}
+.gift-grid figure{margin:0;overflow:hidden;background:#1d1716;aspect-ratio:3/4}
+.gift-grid figure:first-child{aspect-ratio:auto}
+.gift-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.gift-grid figure:hover img{transform:scale(1.04)}
+@media (max-width:760px){.gift-grid{grid-template-columns:1fr 1fr}.gift-grid figure:first-child{grid-column:1/-1;aspect-ratio:4/5}}
 .design{background:var(--bordo);overflow:hidden}
 .design .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(32px,6vw,90px);align-items:center}
 .design .frame{position:relative;aspect-ratio:4/5;border:1px solid rgba(239,228,226,.25);padding:14px}
@@ -185,7 +192,11 @@ html[lang="ar"] .design .frame .badge{letter-spacing:0;font-size:13px}
 @media (max-width:860px){.design .wrap{grid-template-columns:1fr}.design .frame{max-width:520px}}
 
 .art{background:linear-gradient(180deg,var(--bg),var(--bordo) 140%)}
-.art-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:clamp(12px,1.6vw,22px)}
+.art-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(12px,1.6vw,22px)}
+.art-grid figure{margin:0;overflow:hidden;aspect-ratio:4/5;background:#1d1716}
+.art-grid figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.art-grid figure:hover img{transform:scale(1.035)}
+@media (max-width:760px){.art-grid{grid-template-columns:1fr}}
 .ph-slot{margin:0;aspect-ratio:3/4;border:1px dashed rgba(201,164,92,.45);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.02)}
 .art-grid .ph-slot:first-child{grid-row:span 2;aspect-ratio:auto}
 @media (max-width:760px){.art-grid{grid-template-columns:1fr 1fr}.art-grid .ph-slot:first-child{grid-column:1/-1;grid-row:auto;aspect-ratio:4/3}}
@@ -217,7 +228,8 @@ html[lang="ar"] .story blockquote em{font-style:normal}
 /* ---------- galeri ---------- */
 .gallery{columns:4 240px;column-gap:14px}
 .gallery button{display:block;width:100%;margin:0 0 14px;padding:0;border:0;background:#1d1716;cursor:zoom-in;overflow:hidden;border-radius:2px;break-inside:avoid}
-.gallery img{width:100%;transition:transform 1s cubic-bezier(.2,.7,.2,1),opacity .4s}
+.gal-more{display:flex;justify-content:center;margin-top:clamp(28px,4vw,48px)}
+.gallery img{width:100%;height:auto;transition:transform 1s cubic-bezier(.2,.7,.2,1),opacity .4s}
 .gallery button:hover img{transform:scale(1.04)}
 @media (max-width:560px){.gallery{columns:2;column-gap:10px}.gallery button{margin-bottom:10px}}
 .lb{position:fixed;inset:0;z-index:100;background:rgba(10,6,6,.96);display:none;align-items:center;justify-content:center;padding:60px 16px}
@@ -278,7 +290,7 @@ footer a:hover{color:var(--gold)}
     <ul class="menu" id="menu">
       <li><a href="#koleksiyon" data-i="nav_col">Koleksiyon</a></li>
       <li><a href="tasarla/" data-i="nav_design">Bardağını tasarla</a></li>
-      <!-- <li><a href="#atolye" data-i="nav_art">Atölye</a></li> cam işleri fotoğrafları gelince açılacak -->
+      <li><a href="#atolye" data-i="nav_art">Atölye</a></li>
       <li><a href="#zanaat" data-i="nav_craft">Zanaat</a></li>
       <li><a href="#galeri" data-i="nav_gal">Galeri</a></li>
       <li><a href="#sss" data-i="nav_faq">Sorular</a></li>
@@ -308,7 +320,7 @@ footer a:hover{color:var(--gold)}
       </div>
     </div>
     <div class="hero-media">
-      <img src="img/site/hero-l.webp" srcset="img/site/hero-s.webp 720w, img/site/hero-l.webp 1200w" sizes="(max-width:860px) 100vw, 50vw" alt="Uçuk pembe monogram bardak, altın varakla Z kalp A harfleri" data-ia="alt_hero" fetchpriority="high">
+      <img src="img/site/hero-l.webp" srcset="img/site/hero-s.webp 720w, img/site/hero-l.webp 960w" sizes="(max-width:860px) 100vw, 50vw" alt="Altın varak harfli altı fincan, vizon ve gül kurusu tonlarında" data-ia="alt_hero" fetchpriority="high">
     </div>
     <div class="scroll-hint" aria-hidden="true"><span data-i="scroll">Kaydır</span><i></i></div>
   </section>
@@ -354,7 +366,7 @@ footer a:hover{color:var(--gold)}
   <section class="sec design" id="tasarla">
     <div class="wrap">
       <div class="frame rv">
-        <img src="img/site/detay-altin.webp" alt="Kahverengi bardakta altın varak YH ve kalp" data-ia="alt_design" loading="lazy">
+        <img src="img/site/detay-altin.webp" alt="Altın varakla el yazısı harfler işlenmiş üst üste fincanlar" data-ia="alt_design" loading="lazy">
         <span class="badge" data-i="d_badge">3D önizleme</span>
       </div>
       <div class="rv">
@@ -375,7 +387,7 @@ footer a:hover{color:var(--gold)}
   <section class="sec" id="imza" style="padding-bottom:0">
     <div class="wrap">
       <a class="card feature rv" href="https://www.shopier.com/zukhaistanbul/52233757" target="_blank" rel="noopener" id="imzaCard">
-        <div class="ph" style="aspect-ratio:4/3"><img src="img/site/imza-l.webp" srcset="img/site/imza-s.webp 720w, img/site/imza-l.webp 1400w" sizes="(max-width:860px) 100vw, 60vw" alt="Siyah Zukha kutularında el yazısı M ve A monogramlı fincanlar" data-ia="alt_imza" loading="lazy"></div>
+        <div class="ph" style="aspect-ratio:4/3"><img src="img/site/imza-l.webp" srcset="img/site/imza-s.webp 720w, img/site/imza-l.webp 1400w" sizes="(max-width:860px) 100vw, 60vw" alt="Siyah Zukha kutularında el yazısı monogramlı fincanlar" data-ia="alt_imza" loading="lazy"></div>
         <div style="display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,4vw,56px)">
           <p class="eyebrow" data-i="i_eye">Hediye için</p>
           <h2 style="font-size:clamp(26px,3.2vw,38px)" data-i="i_h">Zukha İmza Monogram</h2>
@@ -386,8 +398,27 @@ footer a:hover{color:var(--gold)}
     </div>
   </section>
 
+
+  <!-- HEDİYE ANI -->
+  <section class="sec gift" id="hediye">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <div>
+          <p class="eyebrow" data-i="h_eye">Hediye anı</p>
+          <h2 data-i="h_h">Bir fincandan fazlası.</h2>
+          <p class="lead" data-i="h_p">Bir isim, bir anı, bir sabah ritüeli. Sevdiklerinize ya da kendinize; her gün elinizde.</p>
+        </div>
+      </div>
+      <div class="gift-grid">
+        <figure class="rv"><img src="img/site/hd-1-s.webp" srcset="img/site/hd-1-s.webp 600w, img/site/hd-1-l.webp 960w" sizes="(max-width:760px) 100vw, 40vw" alt="Deniz ve dağ manzarası önünde siyah kutuda sarı ve mint iki fincan" data-ia="alt_h1" loading="lazy"></figure>
+        <figure class="rv"><img src="img/site/hd-2-s.webp" srcset="img/site/hd-2-s.webp 600w, img/site/hd-2-l.webp 960w" sizes="(max-width:760px) 50vw, 30vw" alt="Mermer üzerinde Türk kahvesiyle mint MBK fincan" data-ia="alt_h2" loading="lazy"></figure>
+        <figure class="rv"><img src="img/site/hd-3-s.webp" srcset="img/site/hd-3-s.webp 600w, img/site/hd-3-l.webp 960w" sizes="(max-width:760px) 50vw, 30vw" alt="Krem kutularda ELF ve ERN harfli fincanlar" data-ia="alt_h3" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
   <!-- CAM İŞLEME SANATI (fotoğraflar gelecek) -->
-  <section class="sec art" id="atolye" hidden>
+  <section class="sec art" id="atolye">
     <div class="wrap">
       <div class="sec-head rv">
         <div>
@@ -398,9 +429,10 @@ footer a:hover{color:var(--gold)}
         <a class="btn ghost" href="https://ig.me/m/zukhaistanbul" target="_blank" rel="noopener" data-i="a_cta">Özel iş için yazın</a>
       </div>
       <div class="art-grid">
-        <figure class="ph-slot rv"><span>Fotoğraf 1</span></figure>
-        <figure class="ph-slot rv"><span>Fotoğraf 2</span></figure>
-        <figure class="ph-slot rv"><span>Fotoğraf 3</span></figure>
+        <figure class="rv"><img src="img/site/cam-kase-s.webp" srcset="img/site/cam-kase-s.webp 600w, img/site/cam-kase-l.webp 1056w" sizes="(max-width:760px) 100vw, 50vw" alt="Altın kenarlı, renkli çiçek desenli buzlu cam kase" data-ia="alt_a1" loading="lazy"></figure>
+        <figure class="rv"><img src="img/site/cam-hat-s.webp" srcset="img/site/cam-hat-s.webp 600w, img/site/cam-hat-l.webp 960w" sizes="(max-width:760px) 100vw, 50vw" alt="Altın ve siyah hat işlemeli, çiçek bordürlü dekoratif cam tabak" data-ia="alt_a3" loading="lazy"></figure>
+        <figure class="rv"><img src="img/site/cam-nar-s.webp" srcset="img/site/cam-nar-s.webp 600w, img/site/cam-nar-l.webp 960w" sizes="(max-width:760px) 100vw, 50vw" alt="Altın nar ve çiçek desenli şeffaf cam vazo" data-ia="alt_a4" loading="lazy"></figure>
+        <figure class="rv"><img src="img/site/cam-vazo-s.webp" srcset="img/site/cam-vazo-s.webp 600w, img/site/cam-vazo-l.webp 1056w" sizes="(max-width:760px) 100vw, 50vw" alt="Mozaik desenli silindir cam vazo" data-ia="alt_a2" loading="lazy"></figure>
       </div>
     </div>
   </section>
@@ -410,9 +442,9 @@ footer a:hover{color:var(--gold)}
     <div class="wrap">
       <div class="craft-grid">
         <div class="craft-pics rv">
-          <figure><img src="img/site/detay-gumus.webp" alt="Gümüş varak ERN harfleri yakın çekim" data-ia="alt_c1" loading="lazy"></figure>
-          <figure><img src="img/site/detay-bhr.webp" alt="Altın varak BHR ve yonca yakın çekim" data-ia="alt_c2" loading="lazy"></figure>
-          <figure><img src="img/site/g-es-s.webp" alt="Kahverengi bardakta altın varak harfler" data-ia="alt_c3" loading="lazy" style="object-position:50% 62%"></figure>
+          <figure><img src="img/site/detay-gumus.webp" alt="Altın varak harfli kahve rengi fincanlar" data-ia="alt_c1" loading="lazy"></figure>
+          <figure><img src="img/site/detay-bhr.webp" alt="Gümüş varak ELİF harfleri yakın çekim" data-ia="alt_c2" loading="lazy"></figure>
+          <figure><img src="img/site/detay-arp.webp" alt="Mint fincanda altın varak Arapça harfler" data-ia="alt_c3" loading="lazy"></figure>
         </div>
         <div class="rv">
           <p class="eyebrow" data-i="c_eye">Zanaat</p>
@@ -450,6 +482,7 @@ footer a:hover{color:var(--gold)}
         <a class="btn ghost" href="https://www.instagram.com/zukhaistanbul/" target="_blank" rel="noopener" data-i="g_ig">Instagram'da daha fazlası</a>
       </div>
       <div class="gallery" id="gallery"></div>
+      <div class="gal-more"><button type="button" class="btn ghost" id="galAll"><span data-i="g_all">Tüm fotoğrafları gör</span> <span id="galCount"></span></button></div>
     </div>
   </section>
 
@@ -522,10 +555,10 @@ footer a:hover{color:var(--gold)}
     {id:"sari",hex:"#efc34d",url:SH+"50700317",konik:true},
     {id:"mint",hex:"#9ccfb3",url:SH+"51767236",konik:true}
   ];
-  var GAL=["g-ern","g-zrm","g-alt","g-yh","g-hln","g-snm","g-ed","g-bhr","g-sna","g-cb","g-a","g-s","g-mb","g-bff"];
+  var GAL=["g-dg","g-kb","g-orh","g-arp","g-ugur","g-sek","g-ata","g-zo","g-kule","g-yaz","g-bb","g-kvs","g-ezg","g-hh","g-ek","g-kt","g-emel","g-ysm","g-mrv","g-eea","g-bs","g-sy","g-soa","f101","f89","f91","f96","f97","f100","f95","f12","f13","f16","f19","f28","f55","f56","f60","f62","f67","f68","f70","f79","f109","f111","f135","f188","f196","f216","f214","f243","f244","f246","f300","f306","f286"];var GAL_FIRST=12;
 
   var T={
-  tr:{nav_art:"Atölye",a_eye:"Atölye · Özel işler",a_h:"Cam işleme sanatı.",a_p:"Espresso bardaklarımızın ötesinde, atölyemizde kumlama ve el işçiliğiyle hazırlanan tek ve özel cam işleri. Her biri yalnızca bir kez yapılır.",a_cta:"Özel iş için yazın",nav_col:"Koleksiyon",nav_design:"Bardağını tasarla",nav_craft:"Zanaat",nav_gal:"Galeri",nav_faq:"Sorular",shop:"Mağaza",
+  tr:{nav_art:"Atölye",g_all:"Tüm fotoğrafları gör",a_eye:"Atölye · Özel işler",a_h:"Cam işleme sanatı.",a_p:"Espresso bardaklarımızın ötesinde, atölyemizde kumlama ve el işçiliğiyle hazırlanan tek ve özel cam işleri. Her biri yalnızca bir kez yapılır.",a_cta:"Özel iş için yazın",nav_col:"Koleksiyon",nav_design:"Bardağını tasarla",nav_craft:"Zanaat",nav_gal:"Galeri",nav_faq:"Sorular",shop:"Mağaza",
     hero_eye:"Handmade · İstanbul",hero_h:"Her harfin bir <em>hikâyesi</em> var.",hero_p:"Kumlama ile oyulan, elle altın ya da gümüş varakla işlenen, size özel espresso ve Türk kahvesi fincanları.",
     cta_design:"Bardağını tasarla",cta_col:"Koleksiyonu keşfet",scroll:"Kaydır",
     s1:"El yapımı",s2:"Size özel harfler",s3:"Altın · Gümüş varak",s4:"Ücretsiz kargo",
@@ -559,10 +592,10 @@ footer a:hover{color:var(--gold)}
     q6:"Bardağımı nasıl korurum?",a6:"Rengin ve varağın uzun süre ilk günkü gibi kalması için elde yıkamanızı öneriyoruz. Bulaşık makinesinde yıkamayın, yazılı yüzeyi sert süngerle ovmayın.",
     ct_h:"Aklınızdaki harfi bize yazın.",ct_p:"Hediye, özel gün ya da toplu sipariş için Instagram'dan bize ulaşın.",ig:"Instagram'dan yaz",go_store:"Mağazaya git",
     f_hand:"Handmade in İstanbul",m_design:"Tasarla",m_shop:"Sipariş ver",
-    alt_hero:"Uçuk pembe monogram bardak, altın varakla Z kalp A harfleri",alt_design:"Kahverengi bardakta altın varak YH ve kalp",alt_imza:"Siyah Zukha kutularında el yazısı M ve A monogramlı fincanlar",alt_c1:"Gümüş varak ERN harfleri yakın çekim",alt_c2:"Altın varak BHR ve yonca yakın çekim",alt_c3:"Kahverengi bardakta altın varak harfler",alt_g:"Zukha monogram bardak",
+    alt_hero:"Altın varak harfli altı fincan, vizon ve gül kurusu tonlarında",alt_a1:"Altın kenarlı, renkli çiçek desenli buzlu cam kase",alt_a2:"Mozaik desenli silindir cam vazo",alt_a3:"Altın ve siyah hat işlemeli, çiçek bordürlü dekoratif cam tabak",alt_a4:"Altın nar ve çiçek desenli şeffaf cam vazo",h_eye:"Hediye anı",h_h:"Bir fincandan fazlası.",h_p:"Bir isim, bir anı, bir sabah ritüeli. Sevdiklerinize ya da kendinize; her gün elinizde.",alt_h1:"Deniz ve dağ manzarası önünde siyah kutuda sarı ve mint iki fincan",alt_h2:"Mermer üzerinde Türk kahvesiyle mint MBK fincan",alt_h3:"Krem kutularda ELF ve ERN harfli fincanlar",alt_design:"Altın varakla el yazısı harfler işlenmiş üst üste fincanlar",alt_imza:"Siyah Zukha kutularında el yazısı monogramlı fincanlar",alt_c1:"Altın varak harfli kahve rengi fincanlar",alt_c2:"Gümüş varak ELİF harfleri yakın çekim",alt_c3:"Mint fincanda altın varak Arapça harfler",alt_g:"Zukha monogram bardak",
     title:"Zukha İstanbul · El yapımı monogram fincanlar"},
 
-  en:{nav_art:"Atelier",a_eye:"Atelier · Bespoke",a_h:"The art of glass.",a_p:"Beyond our espresso cups: one-of-a-kind glass pieces, sandblasted and finished by hand in our studio. Each one is made only once.",a_cta:"Ask for a bespoke piece",nav_col:"Collection",nav_design:"Design your cup",nav_craft:"Craft",nav_gal:"Gallery",nav_faq:"FAQ",shop:"Shop",
+  en:{nav_art:"Atelier",g_all:"View all photos",a_eye:"Atelier · Bespoke",a_h:"The art of glass.",a_p:"Beyond our espresso cups: one-of-a-kind glass pieces, sandblasted and finished by hand in our studio. Each one is made only once.",a_cta:"Ask for a bespoke piece",nav_col:"Collection",nav_design:"Design your cup",nav_craft:"Craft",nav_gal:"Gallery",nav_faq:"FAQ",shop:"Shop",
     hero_eye:"Handmade · Istanbul",hero_h:"Every letter has a <em>story</em>.",hero_p:"Personalised espresso and Turkish coffee cups, sandblast-engraved and finished by hand in gold or silver leaf.",
     cta_design:"Design your cup",cta_col:"Explore the collection",scroll:"Scroll",
     s1:"Handmade",s2:"Your own letters",s3:"Gold · Silver leaf",s4:"Free shipping",
@@ -596,10 +629,10 @@ footer a:hover{color:var(--gold)}
     q6:"How do I care for my cup?",a6:"Hand washing keeps the colour and leaf like new for longer. Do not put it in the dishwasher, and do not scrub the lettering with a rough sponge.",
     ct_h:"Tell us the letters on your mind.",ct_p:"For gifts, special occasions or bulk orders, reach us on Instagram.",ig:"Message on Instagram",go_store:"Go to shop",
     f_hand:"Handmade in Istanbul",m_design:"Design",m_shop:"Order",
-    alt_hero:"Blush pink monogram cup with Z heart A in gold leaf",alt_design:"Coffee-coloured cup with YH and a heart in gold leaf",alt_imza:"Cups with script M and A monograms in black Zukha boxes",alt_c1:"Close-up of ERN in silver leaf",alt_c2:"Close-up of BHR and a clover in gold leaf",alt_c3:"Gold leaf letters on a coffee-coloured cup",alt_g:"Zukha monogram cup",
+    alt_hero:"Six cups with gold leaf letters in mink and dusty rose",alt_a1:"Frosted glass bowl with a gold rim and colourful floral pattern",alt_a2:"Cylindrical glass vase with a mosaic pattern",alt_a3:"Decorative glass plate with gold and black calligraphy and a floral border",alt_a4:"Clear glass vase with gold pomegranate and floral motifs",h_eye:"The gift moment",h_h:"More than a cup.",h_p:"A name, a memory, a morning ritual. For someone you love, or for yourself; in your hands every day.",alt_h1:"Yellow and mint cups in a black box against a sea and mountain view",alt_h2:"Mint MBK cup with Turkish coffee on marble",alt_h3:"Cups with ELF and ERN in cream boxes",alt_design:"Stacked cups with script letters in gold leaf",alt_imza:"Cups with script monograms in black Zukha boxes",alt_c1:"Coffee-coloured cups with gold leaf letters",alt_c2:"Close-up of ELİF in silver leaf",alt_c3:"Arabic letters in gold leaf on a mint cup",alt_g:"Zukha monogram cup",
     title:"Zukha Istanbul · Handmade monogram cups"},
 
-  ar:{nav_art:"المشغل",a_eye:"المشغل · أعمال خاصة",a_h:"فنّ معالجة الزجاج.",a_p:"أبعد من فناجين الإسبريسو: قطع زجاجية فريدة تُحفر بالرمل وتُنجز يدوياً في مشغلنا. كل قطعة تُصنع مرة واحدة فقط.",a_cta:"اطلب عملاً خاصاً",nav_col:"المجموعة",nav_design:"صمّم فنجانك",nav_craft:"الحِرفة",nav_gal:"المعرض",nav_faq:"الأسئلة",shop:"المتجر",
+  ar:{nav_art:"المشغل",g_all:"عرض كل الصور",a_eye:"المشغل · أعمال خاصة",a_h:"فنّ معالجة الزجاج.",a_p:"أبعد من فناجين الإسبريسو: قطع زجاجية فريدة تُحفر بالرمل وتُنجز يدوياً في مشغلنا. كل قطعة تُصنع مرة واحدة فقط.",a_cta:"اطلب عملاً خاصاً",nav_col:"المجموعة",nav_design:"صمّم فنجانك",nav_craft:"الحِرفة",nav_gal:"المعرض",nav_faq:"الأسئلة",shop:"المتجر",
     hero_eye:"صُنع يدوي · إسطنبول",hero_h:"لكلّ حرفٍ <em>حكاية</em>.",hero_p:"فناجين إسبريسو وقهوة تركية مخصّصة لك، تُحفر حروفها بالرمل وتُزيَّن يدوياً بورق الذهب أو الفضة.",
     cta_design:"صمّم فنجانك",cta_col:"اكتشف المجموعة",scroll:"مرّر",
     s1:"صُنع يدوي",s2:"حروف خاصة بك",s3:"ورق ذهب · فضة",s4:"شحن مجاني",
@@ -633,7 +666,7 @@ footer a:hover{color:var(--gold)}
     q6:"كيف أعتني بفنجاني؟",a6:"ننصح بالغسل اليدوي ليحافظ اللون والورق على رونقهما طويلاً. لا تضعه في غسالة الصحون، ولا تفرك الحروف بإسفنجة خشنة.",
     ct_h:"اكتب لنا الحرف الذي في بالك.",ct_p:"للهدايا والمناسبات الخاصة والطلبات الكبيرة، تواصل معنا عبر إنستغرام.",ig:"راسلنا على إنستغرام",go_store:"اذهب إلى المتجر",
     f_hand:"صُنع يدوياً في إسطنبول",m_design:"صمّم",m_shop:"اطلب الآن",
-    alt_hero:"فنجان مونوغرام وردي فاتح بحروف Z وقلب وA بورق الذهب",alt_design:"فنجان بنّي بحرفي YH وقلب بورق الذهب",alt_imza:"فناجين بمونوغرام M وA بخط اليد في علب زوخا السوداء",alt_c1:"لقطة قريبة لحروف ERN بورق الفضة",alt_c2:"لقطة قريبة لحروف BHR ونفل بورق الذهب",alt_c3:"حروف بورق الذهب على فنجان بنّي",alt_g:"فنجان مونوغرام من زوخا",
+    alt_hero:"ستة فناجين بحروف بورق الذهب بلونَي المنك والوردي الترابي",alt_a1:"وعاء زجاجي مصنفر بحافة ذهبية ونقوش زهور ملونة",alt_a2:"مزهرية زجاجية أسطوانية بنقش فسيفساء",alt_a3:"طبق زجاجي مزخرف بالخط العربي بالذهبي والأسود وإطار من الزهور",alt_a4:"مزهرية زجاجية شفافة بزخارف رمان وزهور ذهبية",h_eye:"لحظة الهدية",h_h:"أكثر من فنجان.",h_p:"اسم، ذكرى، طقس صباحي. لمن تحب أو لنفسك؛ بين يديك كل يوم.",alt_h1:"فنجانان أصفر ونعناعي في علبة سوداء أمام منظر البحر والجبال",alt_h2:"فنجان نعناعي بحروف MBK مع قهوة تركية على الرخام",alt_h3:"فناجين بحروف ELF وERN في علب كريمية",alt_design:"فناجين متراصة بحروف بخط اليد بورق الذهب",alt_imza:"فناجين بمونوغرام بخط اليد في علب زوخا السوداء",alt_c1:"فناجين بنية بحروف بورق الذهب",alt_c2:"لقطة قريبة لحروف ELİF بورق الفضة",alt_c3:"حروف عربية بورق الذهب على فنجان نعناعي",alt_g:"فنجان مونوغرام من زوخا",
     title:"زوخا إسطنبول · فناجين مونوغرام مصنوعة يدوياً"}
   };
 
@@ -661,11 +694,13 @@ footer a:hover{color:var(--gold)}
   // Galeri
   var gWrap=document.getElementById("gallery");
   GAL.forEach(function(g,i){
-    var b=document.createElement("button");b.type="button";b.setAttribute("data-k",i);
-    b.innerHTML='<img src="img/site/'+g+'-s.webp" alt="" loading="lazy" width="600" height="564">';
+    var b=document.createElement("button");b.type="button";b.setAttribute("data-k",i);if(i>=GAL_FIRST)b.hidden=true;
+    b.innerHTML='<img src="img/site/'+g+'-s.webp" alt="" loading="lazy" width="600" height="800">';
     b.addEventListener("click",function(){openLb(i);});
     gWrap.appendChild(b);
   });
+  var galAll=document.getElementById("galAll");document.getElementById("galCount").textContent="("+GAL.length+")";
+  galAll.addEventListener("click",function(){[].forEach.call(gWrap.children,function(b){b.hidden=false;});galAll.parentNode.style.display="none";});
   function galAlts(){[].forEach.call(gWrap.querySelectorAll("img"),function(im){im.alt=t("alt_g");});}
 
   // Lightbox

@@ -183,6 +183,11 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .home:hover{border-color:var(--gold);color:var(--gold2,var(--gold))}
 .home:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (max-width:820px){.hright{gap:6px}.home{font-size:12px;padding:7px 12px}}
+.saveov{position:fixed;inset:0;z-index:90;background:rgba(10,7,6,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom))}
+.saveov img{max-width:min(86vw,420px);max-height:62vh;border-radius:4px;box-shadow:0 12px 40px rgba(0,0,0,.5);-webkit-touch-callout:default;user-select:auto}
+.saveov p{margin:0;color:#efe6df;text-align:center;font-size:15px;line-height:1.5;max-width:340px}
+.saveov p b{color:var(--gold)}
+.saveov button{background:transparent;border:1px solid rgba(239,230,223,.35);color:#efe6df;padding:11px 22px;font:inherit;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 </style>
 </head>
 <body>
@@ -484,7 +489,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     var tex=new THREE.CanvasTexture(document.createElement("canvas"));
     // bant: harflerin dışı bardakla aynı renk/malzeme, harfler metal + çukur (normal harita)
     var decMat=new THREE.MeshPhysicalMaterial({map:tex,metalness:0,roughness:cupMat.roughness,clearcoat:cupMat.clearcoat,clearcoatRoughness:cupMat.clearcoatRoughness,normalScale:new THREE.Vector2(1,1),side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2});
-    var dec=new THREE.Mesh(bg,decMat);cupG.add(dec);
+    var dec=new THREE.Mesh(bg,decMat);dec.visible=false;cupG.add(dec); // ilk harf dokusu hazır olana kadar gizli (siyah bant görünmesin)
     // varak katmanı: sadece harfler, gerçek metal + parlak stüdyo yansıması (pırıl pırıl)
     env.background=new THREE.Color(0x9a9088);box(14,10,0xffffff,0,1,9);box(12,4,0xfff4dc,0,10,2);box(3,12,0xffffff,-9,2,3);box(3,12,0xffffff,9,2,3);
     var foilEnv2=pm.fromScene(env,0.02).texture;
@@ -550,7 +555,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
         var mrT=tx(d.mr,false);
         decMat.map=tx(mkMap(d.ov),true);decMat.normalMap=null;
         if(foilMat.map)foilMat.map.dispose();foilMat.map=tx(d.foil,true);foilMat.needsUpdate=true;
-        decMat.needsUpdate=true;carve(d.depth);need=true;}};
+        decMat.needsUpdate=true;carve(d.depth);dec.visible=true;need=true;}};
     (function loop(){requestAnimationFrame(loop);
       if(Math.abs(target-rot)>1e-4){rot+=(target-rot)*0.18;need=true;}
       if(need){cupG.rotation.y=rot;renderer.render(scene,cam);need=false;}
@@ -775,11 +780,24 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   function dataURLtoBlob(u){var p=u.split(","),m=p[0].match(/:(.*?);/)[1],b=atob(p[1]),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m});}
   function download(blob,name){var a=document.createElement("a"),u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},1500);}
   function slug(){return (state.text||"bardak").replace(/[^A-Za-zÇĞİÖŞÜçğıöşü0-9]/g,"").toLowerCase()||"bardak";}
+  // Görseli göster: her tarayıcıda çalışır (Instagram içi tarayıcı dahil); basılı tutup Fotoğraflara kaydedilir
+  function showSave(url){
+    var o=document.createElement("div");o.className="saveov";o.setAttribute("role","dialog");o.setAttribute("aria-label","Tasarım görseli");
+    o.innerHTML='<img alt="Bardak tasarımın" src="'+url+'"><p>'+(IS_TOUCH?'Görsele <b>basılı tut</b> ve <b>Fotoğraflara Kaydet</b>\'e dokun.':'Görsel indirildi. İndirilmediyse görsele <b>sağ tıkla → Resmi farklı kaydet</b>.')+'</p><button type="button">Kapat</button>';
+    o.querySelector("button").onclick=function(){o.remove();};o.addEventListener("click",function(e){if(e.target===o)o.remove();});
+    document.body.appendChild(o);
+  }
   el("saveImg").addEventListener("click",function(){
-    var name="zukha-"+color().id+"-"+slug()+".png",url=shot(false).toDataURL("image/png"),blob=dataURLtoBlob(url);
-    if(IS_TOUCH&&navigator.canShare){var f=new File([blob],name,{type:"image/png"});
-      if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:"Zukha bardak tasarımım"}).catch(function(e){if(e&&e.name!=="AbortError")download(blob,name);});return;}}
-    download(blob,name);
+    var name="zukha-"+color().id+"-"+slug()+".png",url,blob;
+    try{url=shot(false).toDataURL("image/png");blob=dataURLtoBlob(url);}catch(e){return;}
+    if(IS_TOUCH){
+      var f=null;try{f=new File([blob],name,{type:"image/png"});}catch(e){}
+      if(f&&navigator.canShare&&navigator.share&&navigator.canShare({files:[f]})){
+        navigator.share({files:[f],title:"Zukha bardak tasarımım"}).catch(function(e){if(!e||e.name!=="AbortError")showSave(url);});return;}
+      showSave(url);return;
+    }
+    try{download(blob,name);}catch(e){}
+    showSave(url);
   });
 
 
@@ -789,6 +807,7 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   var CART_KEY="zukha-sepet",cart=[];
   // Sepet sadece bu cihazın tarayıcısında durur; 2 gün dokunulmazsa kendiliğinden boşalır.
   var CART_TTL=2*24*60*60*1000;
+  try{localStorage.removeItem("zukha-sepet");}catch(e){} // sepet kapalı: eski kayıtları temizle
   try{var raw=JSON.parse(localStorage.getItem(CART_KEY)||"null");if(raw&&raw.items&&Array.isArray(raw.items)&&(Date.now()-(+raw.t||0))<CART_TTL){cart=raw.items;}else{cart=[];localStorage.removeItem(CART_KEY);}}catch(e){cart=[];}
   function saveCart(){var d=function(){return JSON.stringify({t:Date.now(),items:cart});};try{if(cart.length)localStorage.setItem(CART_KEY,d());else localStorage.removeItem(CART_KEY);}catch(e){try{cart.forEach(function(it){it.img="";});localStorage.setItem(CART_KEY,d());}catch(_){}}updFab();}
   function colorBy(id){for(var i=0;i<COLORS.length;i++)if(COLORS[i].id===id)return COLORS[i];return COLORS[1];}
