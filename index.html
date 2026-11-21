@@ -105,7 +105,7 @@ html[dir="rtl"] .hero-media::after{background:linear-gradient(270deg,var(--bg) 0
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;grid-template-rows:auto auto;min-height:0}
-  .hero-media{order:-1;min-height:0;aspect-ratio:4/4.4}
+  .hero-media{order:-1;min-height:0;height:110vw;max-height:78vh;max-height:78svh}
   .hero-media::after{background:linear-gradient(0deg,var(--bg) 0,rgba(20,13,12,0) 30%)}
   html[dir="rtl"] .hero-media::after{background:linear-gradient(0deg,var(--bg) 0,rgba(20,13,12,0) 30%)}
   .hero-copy,html[dir="rtl"] .hero-copy{padding:8px var(--gut) 64px;margin-top:-40px;position:relative;z-index:2}

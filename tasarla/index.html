@@ -778,8 +778,10 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   // ================== SEPET ==================
   // Shopier sepeti dışarıdan doldurulamadığı için: tasarımlar burada toplanır, sonra ürün ürün Shopier'e adım adım gidilir.
   var CART_KEY="zukha-sepet",cart=[];
-  try{cart=JSON.parse(localStorage.getItem(CART_KEY)||"[]")||[];}catch(e){cart=[];}
-  function saveCart(){try{localStorage.setItem(CART_KEY,JSON.stringify(cart));}catch(e){try{cart.forEach(function(it){it.img="";});localStorage.setItem(CART_KEY,JSON.stringify(cart));}catch(_){}}updFab();}
+  // Sepet sadece bu cihazın tarayıcısında durur; 2 gün dokunulmazsa kendiliğinden boşalır.
+  var CART_TTL=2*24*60*60*1000;
+  try{var raw=JSON.parse(localStorage.getItem(CART_KEY)||"null");if(raw&&raw.items&&Array.isArray(raw.items)&&(Date.now()-(+raw.t||0))<CART_TTL){cart=raw.items;}else{cart=[];localStorage.removeItem(CART_KEY);}}catch(e){cart=[];}
+  function saveCart(){var d=function(){return JSON.stringify({t:Date.now(),items:cart});};try{if(cart.length)localStorage.setItem(CART_KEY,d());else localStorage.removeItem(CART_KEY);}catch(e){try{cart.forEach(function(it){it.img="";});localStorage.setItem(CART_KEY,d());}catch(_){}}updFab();}
   function colorBy(id){for(var i=0;i<COLORS.length;i++)if(COLORS[i].id===id)return COLORS[i];return COLORS[1];}
   function charOpt(it){if(it.seri==="monogram")return "";var n=countLetters(it.text)+(it.sym!=="yok"?1:0);return n>=5?"5 karakter":n===4?"4 karakter":"";}
   function symStr(it){return it.sym==="kalp"?"♡":it.sym==="yildiz"?"★":"";}
