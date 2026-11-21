@@ -168,6 +168,12 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
 .notebox pre{margin:0;white-space:pre-wrap;font-family:var(--body);font-size:13px;color:var(--ink);line-height:1.5;max-height:160px;overflow:auto}
 .back{appearance:none;border:0;background:none;color:var(--muted);font-size:13px;cursor:pointer;padding:12px 0 0;text-decoration:underline}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);opacity:0;background:#2a2220;color:#f3ede4;padding:12px 18px;border-radius:30px;font-size:14px;z-index:1200;transition:opacity .25s,transform .25s;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
+.igsteps{background:rgba(201,164,92,.1);border:1px solid rgba(201,164,92,.45);border-radius:8px;padding:16px 16px 12px;margin:14px 0 4px}
+.igh{font-family:var(--display);font-size:18px;margin:0 0 10px;color:var(--gold)}
+.igsteps ol{margin:0;padding-left:20px;display:grid;gap:8px;font-size:15px;line-height:1.45}
+.igsteps span{color:var(--muted);font-size:13px}
+.igwarn{margin:0;font-size:14px;text-align:center;color:var(--ink);background:rgba(201,164,92,.14);border-radius:6px;padding:10px 12px}
+.igwarn b{color:var(--gold);letter-spacing:.04em}
 .toast.on{opacity:1;transform:translateX(-50%)}
 @media (max-width:820px){.cartfab{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));padding:10px 14px 10px 12px}}
 .logolink{display:block;line-height:0}
@@ -817,8 +823,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     if(!cart.length||(n>1&&view==="steps")){view="cart";}
     if(view==="ig"){
       el("drawerTitle").textContent="Instagram'dan sipariş";
-      B.innerHTML='<p class="steps-intro"><b>1.</b> Aşağıdaki mesajı kopyala.<br><b>2.</b> Instagram\'ı aç, mesaj kutusuna <b>basılı tut → Yapıştır</b> ve gönder.</p><div class="notebox"><pre id="igPre">'+esc(igText())+'</pre></div><button class="back" type="button" data-a="back">← Sepete dön</button>';
-      F.innerHTML='<button class="btn" type="button" data-a="igcopy" id="igCopy">1. Mesajı kopyala</button><a class="btn ghost" id="igOpen" href="https://ig.me/m/zukhaistanbul" target="_blank" rel="noopener" data-a="igopen">2. Instagram\'ı aç</a>';
+      B.innerHTML='<div class="igsteps"><p class="igh">Siparişini 3 adımda gönder</p><ol><li><b>Mesajın kopyalandı</b> ✓ <span>(aşağıda görüyorsun)</span></li><li><b>Instagram\'ı aç</b> butonuna bas</li><li>Açılan sohbette mesaj kutusuna <b>basılı tut → Yapıştır → Gönder</b></li></ol></div><div class="notebox"><pre id="igPre">'+esc(igText())+'</pre><button class="btn ghost" type="button" data-a="igcopy" id="igCopy">Mesajı tekrar kopyala</button></div><button class="back" type="button" data-a="back">← Sepete dön</button>';
+      F.innerHTML='<p class="igwarn">Instagram açılınca mesaj kutusuna <b>YAPIŞTIR</b> ve gönder.</p><a class="btn" id="igOpen" href="https://ig.me/m/zukhaistanbul" rel="noopener" data-a="igopen">Instagram\'ı aç</a>';
       return;
     }
     if(view==="cart"){
@@ -855,8 +861,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     else if(a==="step"){doneSteps[i]=true;copyText(noteText());setTimeout(renderDrawer,300);}
     else if(a==="copynote"){copyText(noteText());toast("Sipariş notu kopyalandı.");}
     else if(a==="gopay"){copyText(noteText());toast("Sipariş notu kopyalandı. Ödemede not alanına yapıştır.");}
-    else if(a==="ig"){e.preventDefault();copyText(igText());view="ig";renderDrawer();el("drawerBody").scrollTop=0;var c=el("igCopy");if(c){c.textContent="Kopyalandı ✓ (tekrar kopyala)";}var o=el("igOpen");if(o)o.className="btn";}
-    else if(a==="igcopy"){copyText(igText());var c2=el("igCopy");if(c2)c2.textContent="Kopyalandı ✓ (tekrar kopyala)";var o2=el("igOpen");if(o2)o2.className="btn";toast("Mesaj kopyalandı. Instagram'da yapıştırıp gönder.");}
+    else if(a==="ig"){e.preventDefault();copyText(igText());view="ig";renderDrawer();el("drawerBody").scrollTop=0;}
+    else if(a==="igcopy"){copyText(igText());var c2=el("igCopy");if(c2)c2.textContent="Kopyalandı ✓";toast("Mesaj kopyalandı. Instagram'da yapıştırıp gönder.");}
+    else if(a==="igopen"){copyText(igText());}
   });
   updFab();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);

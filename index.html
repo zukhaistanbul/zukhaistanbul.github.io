@@ -67,7 +67,8 @@ section{position:relative}
 .brand{display:flex;align-items:center;text-decoration:none}
 .brand img{height:34px;width:auto}
 .menu{display:flex;align-items:center;gap:30px;list-style:none;margin:0;padding:0}
-.menu a{text-decoration:none;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);opacity:.85;transition:opacity .2s,color .2s}
+@media (min-width:861px) and (max-width:1280px){.menu{gap:clamp(16px,1.8vw,30px)}.menu a{letter-spacing:.14em}}
+.menu a{white-space:nowrap;text-decoration:none;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);opacity:.85;transition:opacity .2s,color .2s}
 html[lang="ar"] .menu a{letter-spacing:0;font-size:15px}
 .menu a:hover{opacity:1;color:var(--gold)}
 .nav-right{display:flex;align-items:center;gap:14px}
