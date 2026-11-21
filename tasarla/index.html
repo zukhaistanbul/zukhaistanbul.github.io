@@ -577,6 +577,9 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
   var DEC={key:null,d:null,t:0};var FL={};
   function mkMap(ov){var c=document.createElement("canvas");c.width=ov.width;c.height=ov.height;var x=c.getContext("2d");x.fillStyle=color().hex;x.fillRect(0,0,c.width,c.height);x.drawImage(ov,0,0);return c;}
 
+  // Telefonda ig.me Instagram uygulamasını açar; bilgisayarda ig.me bazen açılmıyor, profil sayfasına gidilir.
+  var IS_MOBILE=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));
+  var IG_URL=IS_MOBILE?"https://ig.me/m/zukhaistanbul":"https://www.instagram.com/zukhaistanbul/";
   function copyText(t){var ok=false;
     if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext){try{navigator.clipboard.writeText(t).catch(function(){});}catch(e){}}
     try{var ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;top:0;left:0;opacity:0;font-size:16px";document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,t.length);ok=document.execCommand("copy");document.body.removeChild(ta);}catch(e){}
@@ -823,8 +826,8 @@ legend,label.lbl{font-size:12px;letter-spacing:.18em;text-transform:uppercase;co
     if(!cart.length||(n>1&&view==="steps")){view="cart";}
     if(view==="ig"){
       el("drawerTitle").textContent="Instagram'dan sipariş";
-      B.innerHTML='<div class="igsteps"><p class="igh">Siparişini 3 adımda gönder</p><ol><li><b>Mesajın kopyalandı</b> ✓ <span>(aşağıda görüyorsun)</span></li><li><b>Instagram\'ı aç</b> butonuna bas</li><li>Açılan sohbette mesaj kutusuna <b>basılı tut → Yapıştır → Gönder</b></li></ol></div><div class="notebox"><pre id="igPre">'+esc(igText())+'</pre><button class="btn ghost" type="button" data-a="igcopy" id="igCopy">Mesajı tekrar kopyala</button></div><button class="back" type="button" data-a="back">← Sepete dön</button>';
-      F.innerHTML='<p class="igwarn">Instagram açılınca mesaj kutusuna <b>YAPIŞTIR</b> ve gönder.</p><a class="btn" id="igOpen" href="https://ig.me/m/zukhaistanbul" rel="noopener" data-a="igopen">Instagram\'ı aç</a>';
+      B.innerHTML='<div class="igsteps"><p class="igh">Siparişini 3 adımda gönder</p><ol><li><b>Mesajın kopyalandı</b> ✓ <span>(aşağıda görüyorsun)</span></li><li><b>Instagram\'ı aç</b> butonuna bas</li>'+(IS_MOBILE?'<li>Açılan sohbette mesaj kutusuna <b>basılı tut → Yapıştır → Gönder</b></li>':'<li>Açılan profilde <b>Mesaj gönder</b>\'e tıkla, mesaj kutusuna <b>Ctrl+V</b> ile yapıştır ve gönder</li>')+'</ol></div><div class="notebox"><pre id="igPre">'+esc(igText())+'</pre><button class="btn ghost" type="button" data-a="igcopy" id="igCopy">Mesajı tekrar kopyala</button></div><button class="back" type="button" data-a="back">← Sepete dön</button>';
+      F.innerHTML='<p class="igwarn">Instagram açılınca mesaj kutusuna <b>YAPIŞTIR</b> ve gönder.</p><a class="btn" id="igOpen" href="'+IG_URL+'"'+(IS_MOBILE?'':' target="_blank"')+' rel="noopener" data-a="igopen">Instagram\'ı aç</a>';
       return;
     }
     if(view==="cart"){
